@@ -42,7 +42,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   return (
-    <div className="flex bg-[#F6F9FF]">
+    <div className="flex bg-[#F6F9FF] ">
       <Sidebar />
       
       {/* Mobile Sidebar Overlay */}
@@ -101,8 +101,8 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       )}
       
       <div className="flex-1">
-        <Header onMenuClick={() => setIsMobileSidebarOpen(true)} />
-        <main className="p-6">{children}</main>
+        <Header />
+        <main className="p-6 pr-12">{children}</main>
       </div>
     </div>
   );
