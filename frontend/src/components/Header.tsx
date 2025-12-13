@@ -1,35 +1,57 @@
-import { Search, Bell } from 'lucide-react'
+import { Search, Bell, Menu } from 'lucide-react'
 
-const Header = () => {
+interface HeaderProps {
+  onMenuClick?: () => void
+}
+
+const Header = ({ onMenuClick }: HeaderProps) => {
   return (
     <header className='bg-white px-4 md:px-6 py-3 md:py-4'>
       {/* Mobile Layout - Two Rows */}
       <div className='md:hidden flex flex-col gap-3'>
-        {/* First Row: Profile on Left, Bell on Right */}
+        {/* First Row: Profile on Left, Notification + Menu on Right */}
         <div className='flex items-center justify-between'>
           {/* Profile - Left Side */}
-          <div className='flex items-center gap-3'>
+          <div className='flex items-center gap-3 flex-1 min-w-0'>
             <img
               src='/dashboard/avatar.png'
-              className='w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-gray-300'
+              className='w-9 h-9 md:w-10 md:h-10 rounded-full border-2 border-gray-300 flex-shrink-0'
               alt='Profile'
             />
-            <div className='leading-tight'>
-              <p className='text-sm font-medium text-gray-800'>App Admin</p>
-              <p className='text-xs text-gray-500 truncate max-w-[140px]'>
+            <div className='leading-tight min-w-0'>
+              <p className='text-sm font-medium text-gray-800 truncate'>
+                App Admin
+              </p>
+              <p className='text-xs text-gray-500 truncate'>
                 Supportwithcoder@gmail.com
               </p>
             </div>
           </div>
 
-          {/* Notification - Right Side */}
-          <div className='relative'>
-            <Bell className='w-6 h-6 text-gray-500' />
-            <span className='absolute -top-1 -right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white' />
+          {/* Right Side: Notification + Menu Button */}
+          <div className='flex items-center gap-3 flex-shrink-0'>
+            {/* Notification */}
+            <div className='relative flex items-center justify-center'>
+              {/* Ring */}
+              <div className='w-10 h-10 rounded-full border-2 border-gray-300 flex items-center justify-center'>
+                <Bell className='w-5 h-5 text-gray-600' />
+              </div>
+
+              {/* Green Dot */}
+              <span className='absolute top-1 right-1 w-3 h-3 bg-green-500 rounded-full border-2 border-white' />
+            </div>
+
+            {/* Menu Button */}
+            <button
+              onClick={onMenuClick}
+              className='p-2 rounded-lg hover:bg-gray-100'
+            >
+              <Menu className='w-6 h-6 text-gray-600' />
+            </button>
           </div>
         </div>
 
-        {/* Second Row: Search Bar */}
+        {/* Second Row: Search Bar (Full Width) */}
         <div className='relative w-full'>
           <Search className='absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400' />
           <input
