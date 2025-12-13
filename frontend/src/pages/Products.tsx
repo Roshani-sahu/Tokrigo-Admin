@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import DashboardLayout from '../layouts/DashboardLayout'
 
 const products = [
@@ -81,6 +81,9 @@ const statusStyles: Record<string, string> = {
 }
 
 const Products = () => {
+  const [currentPage, setCurrentPage] = useState(1)
+  const displayProducts = currentPage === 1 ? products : [...products].reverse()
+
   return (
     <DashboardLayout>
       <div className='font-poppins'>
@@ -104,8 +107,18 @@ const Products = () => {
 
             <div className='flex items-center gap-2 text-sm text-gray-600'>
               <button className='border px-3 py-1 rounded-md'>Filter</button>
-              <button className='border px-2 py-1 rounded-md'>‹</button>
-              <button className='border px-2 py-1 rounded-md'>›</button>
+              <button 
+                onClick={() => setCurrentPage(1)}
+                className='border px-2 py-1 rounded-md hover:bg-gray-50'
+              >
+                ‹
+              </button>
+              <button 
+                onClick={() => setCurrentPage(2)}
+                className='border px-2 py-1 rounded-md hover:bg-gray-50'
+              >
+                ›
+              </button>
             </div>
           </div>
 
@@ -128,7 +141,7 @@ const Products = () => {
               </thead>
 
               <tbody>
-                {[...products, ...products].map((item, index) => (
+                {displayProducts.map((item, index) => (
                   <tr
                     key={index}
                     className='border-b last:border-none hover:bg-gray-50'
