@@ -3,7 +3,7 @@ import Header from "../components/Header";
 
 const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   return (
-    <div className="flex">
+    <div className="flex bg-[#F6F9FF]">
       <Sidebar />
       <div className="flex-1">
         <Header />

@@ -4,7 +4,7 @@ import StatCard from "../components/StatCard";
 const Dashboard = () => {
   return (
     <DashboardLayout>
-      <h1 className="text-xl font-semibold mb-6">Dashboard</h1>
+      <h1 className="text-xl  font-semibold mb-6">Dashboard</h1>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard title="Net Revenue" value="₹35,000" trend="+2.08%" />

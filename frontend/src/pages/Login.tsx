@@ -46,7 +46,7 @@ const Login = () => {
           </div>
 
           {/* Forgot */}
-          <div className="text-center text-sm text-gray-500 cursor-pointer">
+          <div className="text-end text-sm text-gray-500 cursor-pointer">
             Forget Password?
           </div>
 
