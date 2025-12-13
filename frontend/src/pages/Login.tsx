@@ -1,4 +1,4 @@
-import { Mail, Lock, EyeOff } from "lucide-react";
+import { Mail, EyeOff } from "lucide-react";
 
 const Login = () => {
   return (
