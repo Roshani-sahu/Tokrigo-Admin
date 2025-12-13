@@ -42,7 +42,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   return (
-    <div className="flex bg-[#F6F9FF]">
+    <div className="flex h-screen bg-[#F6F9FF]">
       <Sidebar />
       
       {/* Mobile Sidebar Overlay */}
@@ -66,7 +66,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
             </div>
 
             {/* Menu */}
-            <nav className="flex-1 space-y-1">
+            <nav className="flex-1 space-y-1 overflow-y-auto scrollbar-hide">
               {menu.map((item, index) => {
                 const Icon = item.icon;
                 return (
@@ -100,9 +100,9 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
         </div>
       )}
       
-      <div className="flex-1">
+      <div className="flex-1 flex flex-col h-screen">
         <Header onMenuClick={() => setIsMobileSidebarOpen(true)} />
-        <main className="p-6">{children}</main>
+        <main className="flex-1 overflow-y-auto p-6">{children}</main>
       </div>
     </div>
   );
