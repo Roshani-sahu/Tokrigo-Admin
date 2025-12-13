@@ -193,6 +193,355 @@ const Products = () => {
           </div>
         </div>
       </div>
+
+      {/* CSS Media Queries for Mobile Responsiveness */}
+      <style jsx>{`
+        @media (max-width: 768px) {
+          .font-poppins {
+            padding: 0 16px;
+          }
+
+          .bg-white {
+            padding: 16px !important;
+          }
+
+          /* Top Actions Styling */
+          .flex.items-center.justify-between.mb-4 {
+            flex-direction: column;
+            gap: 16px;
+            align-items: stretch;
+          }
+
+          .bg-\\[#546CFC\\] {
+            width: 100%;
+            font-size: 16px !important;
+            padding: 12px 16px !important;
+          }
+
+          .flex.items-center.gap-2 {
+            width: 100%;
+            justify-content: space-between;
+          }
+
+          .border.px-3 {
+            flex: 1;
+            text-align: center;
+          }
+
+          /* Hide Table on Mobile */
+          table {
+            display: none;
+          }
+
+          /* Mobile Cards */
+          .mobile-products-container {
+            display: block;
+          }
+        }
+
+        @media (min-width: 769px) {
+          /* Hide Mobile Cards on Desktop */
+          .mobile-products-container {
+            display: none;
+          }
+
+          /* Show Table on Desktop */
+          table {
+            display: table;
+          }
+        }
+      `}</style>
+
+      {/* Mobile Products Cards - Hidden on Desktop */}
+      <div className='mobile-products-container'>
+        {products.map((item, index) => (
+          <div
+            key={index}
+            className='mobile-product-card'
+            style={{
+              backgroundColor: 'white',
+              border: '1px solid #e5e7eb',
+              borderRadius: '12px',
+              padding: '16px',
+              marginBottom: '16px',
+              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
+            }}
+          >
+            {/* Top Row: Checkbox, Product Info, and Actions */}
+            <div
+              style={{
+                display: 'flex',
+                alignItems: 'flex-start',
+                justifyContent: 'space-between',
+                marginBottom: '12px'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px',
+                  flex: 1
+                }}
+              >
+                <input
+                  type='checkbox'
+                  style={{
+                    marginTop: '4px'
+                  }}
+                />
+                <div
+                  style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '12px'
+                  }}
+                >
+                  <img
+                    src={item.img}
+                    alt={item.name}
+                    style={{
+                      width: '40px',
+                      height: '40px',
+                      borderRadius: '6px'
+                    }}
+                  />
+                  <div>
+                    <h3
+                      style={{
+                        color: '#3B5BDB',
+                        fontWeight: '500',
+                        fontSize: '14px',
+                        marginBottom: '4px'
+                      }}
+                    >
+                      {item.name}
+                    </h3>
+                    <div
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: '8px'
+                      }}
+                    >
+                      <img
+                        src={item.brandImg}
+                        alt={item.brand}
+                        style={{
+                          width: '20px',
+                          height: '20px'
+                        }}
+                      />
+                      <span
+                        style={{
+                          fontSize: '12px',
+                          color: '#6b7280'
+                        }}
+                      >
+                        {item.brand}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '12px'
+                }}
+              >
+                <img
+                  src={
+                    item.status === 'Disabled'
+                      ? '/icons/Edit-disabled.png'
+                      : '/icons/Edit.png'
+                  }
+                  alt='edit'
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    cursor: 'pointer'
+                  }}
+                />
+                <img
+                  src='/icons/Delete.png'
+                  alt='delete'
+                  style={{
+                    width: '20px',
+                    height: '20px',
+                    cursor: 'pointer'
+                  }}
+                />
+              </div>
+            </div>
+
+            {/* Bottom Row: Stats in Grid */}
+            <div
+              style={{
+                display: 'grid',
+                gridTemplateColumns: '1fr 1fr',
+                gap: '16px',
+                borderTop: '1px solid #e5e7eb',
+                paddingTop: '12px'
+              }}
+            >
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px'
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: '12px',
+                      color: '#6b7280'
+                    }}
+                  >
+                    Stock
+                  </span>
+                  <span
+                    style={{
+                      fontWeight: '500'
+                    }}
+                  >
+                    {item.stock}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: '12px',
+                      color: '#6b7280'
+                    }}
+                  >
+                    Sold
+                  </span>
+                  <span
+                    style={{
+                      fontWeight: '500'
+                    }}
+                  >
+                    {item.sold}
+                  </span>
+                </div>
+              </div>
+
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '8px'
+                }}
+              >
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between'
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: '12px',
+                      color: '#6b7280'
+                    }}
+                  >
+                    Price
+                  </span>
+                  <span
+                    style={{
+                      fontWeight: '500'
+                    }}
+                  >
+                    {item.price}
+                  </span>
+                </div>
+                <div
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                    alignItems: 'center'
+                  }}
+                >
+                  <span
+                    style={{
+                      fontSize: '12px',
+                      color: '#6b7280'
+                    }}
+                  >
+                    Status
+                  </span>
+                  <span
+                    style={{
+                      padding: '4px 12px',
+                      borderRadius: '6px',
+                      fontSize: '11px',
+                      fontWeight: '500',
+                      backgroundColor: statusStyles[item.status].split(' ')[0],
+                      color: statusStyles[item.status].split(' ')[1]
+                    }}
+                  >
+                    {item.status}
+                  </span>
+                </div>
+              </div>
+            </div>
+          </div>
+        ))}
+
+        {/* Mobile Pagination */}
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: '8px',
+            marginTop: '24px'
+          }}
+        >
+          <button
+            style={{
+              border: '1px solid #d1d5db',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              fontSize: '14px'
+            }}
+          >
+            ‹ Previous
+          </button>
+          <span
+            style={{
+              fontSize: '14px',
+              color: '#6b7280'
+            }}
+          >
+            Page 1 of 2
+          </span>
+          <button
+            style={{
+              border: '1px solid #d1d5db',
+              padding: '8px 12px',
+              borderRadius: '6px',
+              fontSize: '14px'
+            }}
+          >
+            Next ›
+          </button>
+        </div>
+      </div>
     </DashboardLayout>
   )
 }

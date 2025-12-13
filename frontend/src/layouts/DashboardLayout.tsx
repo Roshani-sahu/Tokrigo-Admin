@@ -102,7 +102,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
       
       <div className="flex-1 flex flex-col h-screen">
         <Header onMenuClick={() => setIsMobileSidebarOpen(true)} />
-        <main className="flex-1 overflow-y-auto p-6">{children}</main>
+        <main className="flex-1 overflow-y-auto scrollbar-hide p-6">{children}</main>
       </div>
     </div>
   );
