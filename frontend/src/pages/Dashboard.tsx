@@ -1,9 +1,9 @@
 import DashboardLayout from "../layouts/DashboardLayout";
 import { ArrowUpRight, ArrowDownRight } from "lucide-react";
-import RevenueOverviewChart from "../components/dashboardComp/RevenueOverviewChart";
+ import RevenueOverviewChart from "../components/dashboardComp/RevenueOverviewChart";
 import CurrentStockOverview from "../components/dashboardComp/CurrentStockOverview";
-import BusyPeriodsHeatMap from "../components/dashboardComp/BusyPeriodsHeatMap";
-import OrderStatusChart from "../components/dashboardComp/OrderStatusChart";
+ import BusyPeriodsHeatMap from "../components/dashboardComp/BusyPeriodsHeatMap";
+ import OrderStatusChart from "../components/dashboardComp/OrderStatusChart";
 
 
 
@@ -120,7 +120,7 @@ const Dashboard = () => {
 
    </div>
 
-     <CurrentStockOverview/>
+     {/* <CurrentStockOverview/> */}
      
     </DashboardLayout>
   );
