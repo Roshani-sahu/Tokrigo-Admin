@@ -15,7 +15,7 @@ const OrdersTable: React.FC = () => {
   ]
 
   return (
-    <div className='bg-white rounded-xl p-4 font-[Poppins] w-[1136px] h-[738px]'>
+    <div className='bg-white rounded-xl p-4 font-[Poppins] h-[738px]'>
       {/* Header */}
       <div className='flex items-center justify-between mb-4'>
         <div className='flex items-center gap-2'>
