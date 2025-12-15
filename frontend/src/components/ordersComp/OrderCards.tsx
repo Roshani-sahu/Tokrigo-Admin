@@ -1,4 +1,5 @@
 import React from 'react'
+import OrderTable from './OrderTable'
 
 const OrderCards: React.FC = () => {
   return (
@@ -87,11 +88,21 @@ const OrderCards: React.FC = () => {
         ))}
       </div>
 
+      {/* OrderTable with overlap */}
+      <div className='mt-0 sm:mt-[30px] lg:mt-[15px] relative z-10'>
+        <OrderTable />
+      </div>
+
       <style jsx>{`
         @media (max-width: 1023px) {
           .mobile-order-card {
             width: 100% !important;
-            max-width: none !important;
+            max-width: 1136px !important;
+            margin-left: none !important;
+            margin-right: none !important;
+          }
+            margin-left: auto !important;
+            margin-right: auto !important;
           }
 
           .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-4 {
