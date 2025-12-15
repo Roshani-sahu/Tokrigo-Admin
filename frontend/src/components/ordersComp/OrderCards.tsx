@@ -44,7 +44,7 @@ const OrderCards: React.FC = () => {
         ].map((card, index) => (
           <div
             key={index}
-            className='w-[295px] h-[117px] rounded-[12px] bg-white px-5 py-4 shadow-sm flex flex-col justify-between'
+            className='w-[295px] lg:w-[295px] h-[117px] rounded-[12px] bg-white px-5 py-4 shadow-sm flex flex-col justify-between mobile-order-card'
           >
             {/* Top section */}
             <div className='flex items-start justify-between -mt-1'>
@@ -86,6 +86,21 @@ const OrderCards: React.FC = () => {
           </div>
         ))}
       </div>
+
+      <style jsx>{`
+        @media (max-width: 1023px) {
+          .mobile-order-card {
+            width: 100% !important;
+            max-width: none !important;
+          }
+
+          .grid.grid-cols-1.sm\:grid-cols-2.lg\:grid-cols-4 {
+            grid-template-columns: 1fr !important;
+            gap: 1rem !important;
+            margin-left: 0 !important;
+          }
+        }
+      `}</style>
     </div>
   )
 }

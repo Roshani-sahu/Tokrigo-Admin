@@ -6,7 +6,7 @@ const Orders = () => {
   return (
     <DashboardLayout>
       <OrderCards />
-      <div className='-mt-[520px] relative z-10'>
+      <div className='mt-[120px] sm:-mt-[520px] relative z-10'>
         <OrderTable />
       </div>
     </DashboardLayout>
