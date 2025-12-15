@@ -89,10 +89,10 @@ const Products = () => {
       <div className='font-poppins'>
         {/* Header */}
         <div className='mb-6'>
-          <h1 className='text-[18px] font-semibold text-[#111]'>
+          <h1 className='text-xl font-semibold text-[#111]'>
             Products Management
           </h1>
-          <p className='text-[11px] font-light text-gray-500'>
+          <p className='text-sm text-gray-500'>
             Manage your product inventory
           </p>
         </div>
