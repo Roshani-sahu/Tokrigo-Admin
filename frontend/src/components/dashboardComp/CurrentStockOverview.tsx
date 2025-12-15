@@ -23,7 +23,7 @@ const statusStyles: Record<string, string> = {
 
 const CurrentStockOverview = () => {
   return (
-    <div className="bg-white rounded-2xl shadow-sm p-6 w-[102%] mt-8">
+    <div className="bg-white rounded-2xl shadow-sm p-6 w-[102%] mt-8 overflow-x-scroll">
 
       {/* Header */}
       <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-4">
