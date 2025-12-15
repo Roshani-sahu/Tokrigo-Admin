@@ -99,7 +99,7 @@ const Products = () => {
 
         {/* Card */}
         <div className='bg-white rounded-2xl shadow-sm p-5'>
-          {/* Top Actionss */}
+          {/* Top Actionsss */}
           <div className='flex items-center justify-between mb-4'>
             <button className='bg-[#546CFC] text-white text-[18px] font-semibold px-5 py-2 rounded-lg'>
               Add Products
