@@ -15,7 +15,7 @@ const orderStatusData = [
 
 const OrderStatusChart = () => {
   return (
-    <div className="bg-white rounded-xl shadow-sm p-6">
+    <div className="bg-white rounded-xl shadow-sm p-6 md:mr-5">
       {/* Header */}
       <div className="flex justify-between items-center mb-6">
         <h2 className="font-semibold text-heading text-xl">
@@ -26,7 +26,7 @@ const OrderStatusChart = () => {
         </select>
       </div>
 
-      <div className="flex items-center gap-10">
+      <div className="flex flex-col md:flex-row items-center gap-10">
         {/* Donut Chart */}
         <div className="w-72 h-40 relative">
           <ResponsiveContainer width="100%" height="100%">

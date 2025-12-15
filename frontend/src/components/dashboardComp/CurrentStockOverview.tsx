@@ -13,7 +13,7 @@ type StockItem = {
 
 const stockData: StockItem[] = [
   {
-    id: "#fc5b94",
+    id: "[#fc5b94]",
     product: "Marie Gold Biscuits",
     stock: "884 Units",
     threshold: "100 Units",
@@ -23,7 +23,7 @@ const stockData: StockItem[] = [
     time: "2 Days",
   },
   {
-    id: "#fc5b94",
+    id: "[#fc5b94]",
     product: "Marie Gold Biscuits",
     stock: "50 Units",
     threshold: "100 Units",
@@ -33,7 +33,37 @@ const stockData: StockItem[] = [
     time: "2 Days",
   },
   {
-    id: "#fc5b94",
+    id: "[#fc5b94]",
+    product: "Marie Gold Biscuits",
+    stock: "0 Units",
+    threshold: "100 Units",
+    reorder: "200 Units",
+    status: "Out of Stock",
+    supplier: "Mr. Bean",
+    time: "2 Days",
+  },
+  {
+    id: "[#fc5b94]",
+    product: "Marie Gold Biscuits",
+    stock: "0 Units",
+    threshold: "100 Units",
+    reorder: "200 Units",
+    status: "Out of Stock",
+    supplier: "Mr. Bean",
+    time: "2 Days",
+  },
+  {
+    id: "[#fc5b94]",
+    product: "Marie Gold Biscuits",
+    stock: "0 Units",
+    threshold: "100 Units",
+    reorder: "200 Units",
+    status: "Out of Stock",
+    supplier: "Mr. Bean",
+    time: "2 Days",
+  },
+  {
+    id: "[#fc5b94]",
     product: "Marie Gold Biscuits",
     stock: "0 Units",
     threshold: "100 Units",
@@ -52,15 +82,19 @@ const statusStyles: Record<string, string> = {
 
 const StockOverview = () => {
   return (
-    <div className="bg-white rounded-xl shadow-sm p-4 mt-8 md:p-6">
+    <div className="bg-white rounded-xl max-w-[330px] md:max-w-full  shadow-sm p-4 mt-8 md:p-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
-        <h2 className="text-lg font-semibold flex items-center gap-2">
-          📊 Current Stock Overview
+        <h2 className="text-lg font-semibold flex text-heading items-center gap-2">
+           <img
+    src="/dashboard/icon5.png"
+    alt="Stock overview"
+    className="w-10 h-10"
+  /> Current Stock Overview
         </h2>
 
-        <div className="flex items-center gap-2">
-          <div className="relative">
+        <div className="flex flex-col md:flex-row items-center gap-2">
+          <div className="relative ">
             <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
             <input
               type="text"
@@ -86,9 +120,9 @@ const StockOverview = () => {
       </div>
 
       {/* Desktop Table */}
-      <div className="hidden md:block overflow-x-auto">
-        <table className="w-full border-collapse">
-          <thead className="bg-gray-50 text-sm text-gray-600">
+      <div className="hidden md:block rounded-md overflow-x-auto">
+        <table className="w-full  border-collapse">
+          <thead className="bg-[#E1FFEC] text-sm text-gray-600">
             <tr>
               <th className="px-4 py-3 text-left">Products ID</th>
               <th className="px-4 py-3 text-left">Products</th>
@@ -101,10 +135,10 @@ const StockOverview = () => {
             </tr>
           </thead>
 
-          <tbody className="text-sm">
+          <tbody className="text-sm ">
             {stockData.map((item, index) => (
-              <tr key={index} className="border-b last:border-none">
-                <td className="px-4 py-3 text-indigo-600 font-medium">
+              <tr key={index} className="border-b  last:border-none">
+                <td className="px-4 py-5 pt-8 text-indigo-600  font-medium">
                   {item.id}
                 </td>
                 <td className="px-4 py-3">{item.product}</td>
