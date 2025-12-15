@@ -124,14 +124,14 @@ const StockOverview = () => {
         <table className="w-full  border-collapse">
           <thead className="bg-[#E1FFEC] text-sm text-gray-600">
             <tr>
-              <th className="px-4 py-3 text-left">Products ID</th>
-              <th className="px-4 py-3 text-left">Products</th>
-              <th className="px-4 py-3 text-left">Current Stock</th>
-              <th className="px-4 py-3 text-left">Threshold</th>
-              <th className="px-4 py-3 text-left">Reorder Quantity</th>
-              <th className="px-4 py-3 text-left">Status</th>
-              <th className="px-4 py-3 text-left">Supplier</th>
-              <th className="px-4 py-3 text-left">Reorder Time</th>
+              <th className="px-4 py-5 text-left">Products ID</th>
+              <th className="px-4 py-5 text-left">Products</th>
+              <th className="px-4 py-5 text-left">Current Stock</th>
+              <th className="px-4 py-5 text-left">Threshold</th>
+              <th className="px-4 py-5 text-left">Reorder Quantity</th>
+              <th className="px-4 py-5 text-left">Status</th>
+              <th className="px-4 py-5 text-left">Supplier</th>
+              <th className="px-4 py-5 text-left">Reorder Time</th>
             </tr>
           </thead>
 
