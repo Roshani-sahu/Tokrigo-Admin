@@ -99,7 +99,7 @@ const Products = () => {
 
         {/* Card */}
         <div className='bg-white rounded-2xl shadow-sm p-5'>
-          {/* Top Actions */}
+          {/* Top Actionss */}
           <div className='flex items-center justify-between mb-4'>
             <button className='bg-[#546CFC] text-white text-[18px] font-semibold px-5 py-2 rounded-lg'>
               Add Products
@@ -107,13 +107,13 @@ const Products = () => {
 
             <div className='flex items-center gap-2 text-sm text-gray-600'>
               <button className='border px-3 py-1 rounded-md'>Filter</button>
-              <button 
+              <button
                 onClick={() => setCurrentPage(1)}
                 className='border px-2 py-1 rounded-md hover:bg-gray-50'
               >
                 ‹
               </button>
-              <button 
+              <button
                 onClick={() => setCurrentPage(2)}
                 className='border px-2 py-1 rounded-md hover:bg-gray-50'
               >
