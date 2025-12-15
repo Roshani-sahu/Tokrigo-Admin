@@ -193,7 +193,7 @@ const BusyPeriodsHeatMap: React.FC<BusyPeriodsHeatMapProps> = ({
         </div>
       )}
 
-      {/* Heatmap */}
+      {/* Heatmapp */}
       <div className="overflow-x-auto max-w-[900px] heatmap-scroll">
         <div className="flex gap-4">
           {/* Day labels */}
