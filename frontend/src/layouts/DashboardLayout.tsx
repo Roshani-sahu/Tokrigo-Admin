@@ -42,7 +42,7 @@ const DashboardLayout = ({ children }: { children: React.ReactNode }) => {
   const [isMobileSidebarOpen, setIsMobileSidebarOpen] = useState(false);
 
   return (
-    <div className="flex h-screen bg-[#F6F9FF]">
+    <div className="flex h-screen bg-[#F6F9FF] overflow-hidden">
       <Sidebar />
       
       {/* Mobile Sidebar Overlay */}
