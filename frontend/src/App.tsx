@@ -3,6 +3,7 @@ import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Products from './pages/Products'
 import Orders from './pages/Orders'
+import Referral from './pages/Referral'
 import CustomerManagement from './pages/CustomerManagement'
 import DeliveryPartnersPage from './pages/DeliveryPartnersPage'
 const App = () => {
@@ -13,6 +14,7 @@ const App = () => {
       <Route path='/products' element={<Products />} />
       <Route path='/orders' element={<Orders />} />
       <Route path='/customers' element={<CustomerManagement />} />
+      <Route path='/referrals' element={<Referral />} />
       <Route path='/delivery-partners' element={<DeliveryPartnersPage />} />
     </Routes>
   )
