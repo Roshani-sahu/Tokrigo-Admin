@@ -22,11 +22,11 @@ const revenueData = [
 
 const RevenueOverviewChart = () => {
   return (
-   <div className="bg-white rounded-2xl shadow-sm p-6">
+   <div className="bg-white rounded-2xl shadow-sm p-6 md:mr-5">
    
          {/* Header */}
          <div className="flex justify-between items-center mb-4">
-           <h2 className="text-sm font-semibold text-[#585858]">
+           <h2 className="text-sm font-semibold text-heading">
              Revenue Overview
            </h2>
            <span className="text-xs text-gray-400 cursor-pointer">
@@ -35,7 +35,7 @@ const RevenueOverviewChart = () => {
          </div>
    
          {/* Chart */}
-         <div className="h-80 w-[100%]">
+         <div className="h-96 w-[100%]">
            <ResponsiveContainer width="100%" height="100%">
              <BarChart
                data={revenueData}

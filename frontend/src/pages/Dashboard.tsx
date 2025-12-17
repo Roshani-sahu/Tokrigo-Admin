@@ -120,7 +120,7 @@ const Dashboard = () => {
 
    </div>
 
-     {/* <CurrentStockOverview/> */}
+     <CurrentStockOverview/>
      
     </DashboardLayout>
   );

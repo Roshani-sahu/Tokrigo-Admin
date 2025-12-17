@@ -57,11 +57,11 @@ const Sidebar = () => {
               key={index}
               to={item.path}
               className={({ isActive }) =>
-                `flex items-center gap-3 px-4 py-4 text-sm font-bold transition
+                `flex items-center gap-3 px-4 py-4 text-sm font-semibold transition
                  ${
                    isActive
-                     ? "bg-[linear-gradient(90deg,#0A591F_0%,#11B93E_99.99%)] text-white"
-                     : "bg-white text-[#535353] hover:bg-green-50 hover:text-green-600"
+                     ? "bg-[linear-gradient(90deg,#0A591F_0%,#11B93E_99.99%)] text-base text-white font-bold"
+                     : "bg-white  text-[#535353] hover:bg-green-50 hover:text-green-600"
                  }`
               }
             >
