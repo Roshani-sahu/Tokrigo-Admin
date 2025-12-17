@@ -45,7 +45,7 @@ const OrderCards: React.FC = () => {
         ].map((card, index) => (
           <div
             key={index}
-            className='w-[295px] lg:w-[295px] h-[117px] rounded-[12px] bg-white px-5 py-4 shadow-sm flex flex-col justify-between mobile-order-card'
+            className='w-full sm:w-[95%] lg:w-[315px] h-[117px] rounded-[12px] bg-white px-5 py-4 shadow-sm flex flex-col justify-between mobile-order-card'
           >
             {/* Top section */}
             <div className='flex items-start justify-between -mt-1'>
@@ -89,7 +89,7 @@ const OrderCards: React.FC = () => {
       </div>
 
       {/* OrderTable with overlap */}
-      <div className='mt-0 sm:mt-[30px] lg:mt-[15px] relative z-10'>
+      <div className='mt-6 sm:mt-[30px] lg:mt-[15px] relative z-10'>
         <OrderTable />
       </div>
 
