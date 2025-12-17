@@ -219,6 +219,12 @@ const Products = () => {
       {/* CSS Media Queries for Mobile Responsiveness */}
       <style jsx>{`
         @media (max-width: 768px) {
+          /* Increase width of the main card on mobile */
+          .bg-white.rounded-2xl.shadow-sm.p-5 {
+            width: calc(100% + 24px);
+            margin-left: -12px;
+            margin-right: -12px;
+          }
           .font-poppins {
             padding: 0 16px;
           }
@@ -264,6 +270,7 @@ const Products = () => {
           /* Mobile Cards */
           .mobile-products-container {
             display: block;
+            margin-top: 16px;
           }
         }
 
