@@ -89,7 +89,7 @@ const OrderCards: React.FC = () => {
       </div>
 
       {/* OrderTable with overlap */}
-      <div className='mt-6 sm:mt-[30px] lg:mt-[15px] relative z-10'>
+      <div className='mt-6 sm:mt-[30px] lg:mt-[15px] relative z-10 -ml-6 -mr-6 sm:ml-0 sm:mr-0'>
         <OrderTable />
       </div>
 
