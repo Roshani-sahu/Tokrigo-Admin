@@ -125,7 +125,7 @@ const Products = () => {
             <table className='w-full text-sm'>
               <thead>
                 <tr className='bg-[#E1FFEC] h-[52px]'>
-                  <th className='px-4 text-left w-[156px]'>
+                  <th className='px-4 text-left w-[60px]'>
                     <input type='checkbox' />
                   </th>
                   <th className='text-left'>Products</th>
