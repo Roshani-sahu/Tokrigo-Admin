@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import DashboardLayout from '../layouts/DashboardLayout'
 
 const products = [
@@ -71,6 +71,26 @@ const products = [
     brandImg: '/icons/DaawatIcon.png',
     price: 'Rs.1,000',
     status: 'Re-Order'
+  },
+  {
+    name: 'Toor Dal',
+    img: '/icons/toordalImg.png',
+    stock: 80,
+    sold: 6,
+    brand: 'Tata Sampann',
+    brandImg: '/icons/tataIcon.png',
+    price: 'Rs.1,000',
+    status: 'In-Stock'
+  },
+  {
+    name: 'Basmati Rice',
+    img: '/icons/basmatiImg.png',
+    stock: 80,
+    sold: 0,
+    brand: 'Daawat',
+    brandImg: '/icons/DaawatIcon.png',
+    price: 'Rs.1,000',
+    status: 'Disabled'
   }
 ]
 
@@ -82,7 +102,29 @@ const statusStyles: Record<string, string> = {
 
 const Products = () => {
   const [currentPage, setCurrentPage] = useState(1)
+  const [selectedItems, setSelectedItems] = useState<number[]>([])
+
+  useEffect(() => {
+    setSelectedItems([])
+  }, [currentPage])
+
   const displayProducts = currentPage === 1 ? products : [...products].reverse()
+
+  const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.checked) {
+      setSelectedItems(displayProducts.map((_, index) => index))
+    } else {
+      setSelectedItems([])
+    }
+  }
+
+  const handleSelectItem = (index: number) => {
+    if (selectedItems.includes(index)) {
+      setSelectedItems(selectedItems.filter((i) => i !== index))
+    } else {
+      setSelectedItems([...selectedItems, index])
+    }
+  }
 
   return (
     <DashboardLayout>
@@ -126,7 +168,14 @@ const Products = () => {
               <thead>
                 <tr className='bg-[#E1FFEC] h-[52px]'>
                   <th className='px-4 text-left w-[60px]'>
-                    <input type='checkbox' />
+                    <input
+                      type='checkbox'
+                      checked={
+                        selectedItems.length === displayProducts.length &&
+                        displayProducts.length > 0
+                      }
+                      onChange={handleSelectAll}
+                    />
                   </th>
                   <th className='text-left'>Products</th>
                   <th>Stock ↑</th>
@@ -146,7 +195,11 @@ const Products = () => {
                     className='border-b last:border-none hover:bg-gray-50'
                   >
                     <td className='px-4 py-3'>
-                      <input type='checkbox' />
+                      <input
+                        type='checkbox'
+                        checked={selectedItems.includes(index)}
+                        onChange={() => handleSelectItem(index)}
+                      />
                     </td>
 
                     <td className='py-3'>
@@ -289,7 +342,7 @@ const Products = () => {
 
       {/* Mobile Products Cards - Hidden on Desktop */}
       <div className='mobile-products-container'>
-        {products.map((item, index) => (
+        {displayProducts.map((item, index) => (
           <div
             key={index}
             className='mobile-product-card'
@@ -321,6 +374,8 @@ const Products = () => {
               >
                 <input
                   type='checkbox'
+                  checked={selectedItems.includes(index)}
+                  onChange={() => handleSelectItem(index)}
                   style={{
                     marginTop: '4px'
                   }}
