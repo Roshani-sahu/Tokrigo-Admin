@@ -134,13 +134,13 @@ const OrderCards: React.FC = () => {
         @media (min-width: 1024px) {
           .grid.grid-cols-1.sm\\:grid-cols-2.lg\\:grid-cols-4 {
             grid-template-columns: repeat(4, 1fr) !important;
-            gap: 2rem !important;
+            gap: 0.2rem !important;
             margin-left: -1.5rem !important;
           }
 
           .mobile-order-card {
             width: 95% !important;
-            max-width: 315px !important;
+            max-width: 345px !important;
           }
         }
       `}</style>{' '}
