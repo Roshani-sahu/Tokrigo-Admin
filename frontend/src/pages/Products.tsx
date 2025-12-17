@@ -214,6 +214,12 @@ const Products = () => {
             padding: 0 16px;
           }
 
+          /* Header Alignment */
+          .mb-6 {
+            margin-left: -12px;
+            margin-top: -6px;
+          }
+
           .bg-white {
             padding: 16px !important;
           }
