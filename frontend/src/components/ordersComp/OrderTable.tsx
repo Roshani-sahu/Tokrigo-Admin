@@ -15,7 +15,7 @@ const OrdersTable: React.FC = () => {
   ]
 
   return (
-    <div className='bg-white rounded-xl p-3 md:p-4 font-[Poppins] h-auto md:h-[738px] w-full md:w-[1270px] mx-0 md:-ml-6'>
+    <div className='bg-white rounded-xl p-3 md:p-4 font-[Poppins] h-auto md:h-[738px] w-full md:w-[1340px] mx-0 md:-ml-6'>
       {/* Header */}
       <div className='flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4'>
         <div className='flex items-center gap-2'>
