@@ -8,7 +8,7 @@ const products = [
     stock: 80,
     sold: 0,
     brand: 'Daawat',
-    brandImg: '/icons/daawat.png',
+    brandImg: '/icons/DaawatIcon.png',
     price: 'Rs.1,000',
     status: 'Disabled'
   },
@@ -18,7 +18,7 @@ const products = [
     stock: 80,
     sold: 6,
     brand: 'Tata Sampann',
-    brandImg: '/icons/tata.png',
+    brandImg: '/icons/tataIcon.png',
     price: 'Rs.1,000',
     status: 'In-Stock'
   },
@@ -28,7 +28,7 @@ const products = [
     stock: 80,
     sold: 0,
     brand: 'Daawat',
-    brandImg: '/icons/daawat.png',
+    brandImg: '/icons/DaawatIcon.png',
     price: 'Rs.1,000',
     status: 'Re-Order'
   },
@@ -38,7 +38,7 @@ const products = [
     stock: 80,
     sold: 6,
     brand: 'Tata Sampann',
-    brandImg: '/icons/tata.png',
+    brandImg: '/icons/tataIcon.png',
     price: 'Rs.1,000',
     status: 'In-Stock'
   },
@@ -48,7 +48,7 @@ const products = [
     stock: 80,
     sold: 0,
     brand: 'Daawat',
-    brandImg: '/icons/daawat.png',
+    brandImg: '/icons/DaawatIcon.png',
     price: 'Rs.1,000',
     status: 'Disabled'
   },
@@ -58,7 +58,7 @@ const products = [
     stock: 80,
     sold: 6,
     brand: 'Tata Sampann',
-    brandImg: '/icons/tata.png',
+    brandImg: '/icons/tataIcon.png',
     price: 'Rs.1,000',
     status: 'In-Stock'
   },
@@ -68,7 +68,7 @@ const products = [
     stock: 80,
     sold: 0,
     brand: 'Daawat',
-    brandImg: '/icons/daawat.png',
+    brandImg: '/icons/DaawatIcon.png',
     price: 'Rs.1,000',
     status: 'Re-Order'
   }
@@ -92,14 +92,12 @@ const Products = () => {
           <h1 className='text-xl font-semibold text-[#111]'>
             Products Management
           </h1>
-          <p className='text-sm text-gray-500'>
-            Manage your product inventory
-          </p>
+          <p className='text-sm text-gray-500'>Manage your product inventory</p>
         </div>
 
         {/* Card */}
         <div className='bg-white rounded-2xl shadow-sm p-5'>
-          {/* Top Actionsss */}
+          {/* Top Actions */}
           <div className='flex items-center justify-between mb-4'>
             <button className='bg-[#546CFC] text-white text-[18px] font-semibold px-5 py-2 rounded-lg'>
               Add Products
@@ -133,7 +131,8 @@ const Products = () => {
                   <th className='text-left'>Products</th>
                   <th>Stock ↑</th>
                   <th>Sold ↑↓</th>
-                  <th>Brand</th>
+                  <th className='text-left pl-10'>Brand</th>{' '}
+                  {/* Added padding to shift right */}
                   <th>Price ↑↓</th>
                   <th>Status</th>
                   <th>Action</th>
@@ -150,25 +149,35 @@ const Products = () => {
                       <input type='checkbox' />
                     </td>
 
-                    <td className='flex items-center gap-3 py-3'>
-                      <img
-                        src={item.img}
-                        alt={item.name}
-                        className='w-8 h-8 rounded'
-                      />
-                      <span className='text-[#3B5BDB]'>{item.name}</span>
+                    <td className='py-3'>
+                      <div className='flex items-center gap-3'>
+                        <img
+                          src={item.img}
+                          alt={item.name}
+                          className='w-8 h-8 rounded'
+                        />
+                        <span className='text-[#3B5BDB]'>{item.name}</span>
+                      </div>
                     </td>
 
                     <td className='text-center'>{item.stock}</td>
                     <td className='text-center'>{item.sold}</td>
 
-                    <td className='flex items-center gap-2 justify-center py-3'>
-                      <img
-                        src={item.brandImg}
-                        alt={item.brand}
-                        className='w-6 h-6'
-                      />
-                      <span className='text-[#3B5BDB]'>{item.brand}</span>
+                    <td className='py-3 pl-10'>
+                      {' '}
+                      {/* Added padding to shift right */}
+                      <div className='flex items-center gap-3'>
+                        <div className='bg-gray-200 p-1.5 rounded-md'>
+                          {' '}
+                          {/* Added grey background */}
+                          <img
+                            src={item.brandImg}
+                            alt={item.brand}
+                            className='w-5 h-5'
+                          />
+                        </div>
+                        <span className='text-[#3B5BDB]'>{item.brand}</span>
+                      </div>
                     </td>
 
                     <td className='text-center'>{item.price}</td>
@@ -210,6 +219,12 @@ const Products = () => {
       {/* CSS Media Queries for Mobile Responsiveness */}
       <style jsx>{`
         @media (max-width: 768px) {
+          /* Increase width of the main card on mobile */
+          .bg-white.rounded-2xl.shadow-sm.p-5 {
+            width: calc(100% + 24px);
+            margin-left: -12px;
+            margin-right: -12px;
+          }
           .font-poppins {
             padding: 0 16px;
           }
@@ -255,6 +270,7 @@ const Products = () => {
           /* Mobile Cards */
           .mobile-products-container {
             display: block;
+            margin-top: 16px;
           }
         }
 
