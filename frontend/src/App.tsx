@@ -3,6 +3,7 @@ import Dashboard from './pages/Dashboard'
 import Login from './pages/Login'
 import Products from './pages/Products'
 import Orders from './pages/Orders'
+import CustomerManagement from './pages/CustomerManagement'
 const App = () => {
   return (
     <Routes>
@@ -10,6 +11,7 @@ const App = () => {
       <Route path='/login' element={<Login />} />
       <Route path='/products' element={<Products />} />
       <Route path='/orders' element={<Orders />} />
+      <Route path='/customers' element={<CustomerManagement />} />
     </Routes>
   )
 }
