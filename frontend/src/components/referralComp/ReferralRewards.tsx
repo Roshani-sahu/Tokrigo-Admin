@@ -2,7 +2,7 @@ import React from 'react'
 
 const ReferralRewards: React.FC = () => {
   return (
-    <div className='min-h-screen bg-[#F6F9FF] font-[Poppins] p-4 md:p-6'>
+    <div className='min-h-screen bg-[#F6F9FF] font-[Poppins] px-0 py-4 md:px-8 md:py-6 lg:px-12 xl:px-0'>
       {/* Page Heading */}
       <h1 className='text-[18px] md:text-[20px] font-semibold'>
         Referrals & Rewards
@@ -235,9 +235,9 @@ const ReferralRewards: React.FC = () => {
 
         @media (min-width: 1280px) {
           .xl\\:grid-cols-5 {
-            grid-template-columns: repeat(5, minmax(0, 1fr));
+            grid-template-co
+        }lumns: repeat(5, minmax(0, 1fr));
           }
-        }
       `}</style>
     </div>
   )
