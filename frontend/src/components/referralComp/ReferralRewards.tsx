@@ -18,15 +18,15 @@ const ReferralRewards: React.FC = () => {
           </h2>
 
           <div className='grid grid-cols-4 gap-4'>
-            {/* Card */}
+            {/* Cards */}
             <div className='border border-gray-400 rounded-xl p-2 flex flex-col'>
               <div className='h-[170px] bg-[#ECFAFF] rounded-lg flex items-center justify-center mb-2'>
-                <img src='/Referrals/Tshirt.png' className='w-[70px]' />
+                <img src='/Referrals/Tshirt.png' className='w-[120px]' />
               </div>
-              <p className='text-[10px] font-medium'>
+              <p className='text-[13px] font-medium'>
                 New Tokrigo Cotton T-shirt
               </p>
-              <p className='text-[9px] text-gray-400 mb-2'>
+              <p className='text-[11px] text-gray-400 mb-2'>
                 Get fast, reliable delivery with real-time tracking.
               </p>
               <button className='mt-auto bg-[#EAFFF2] border border-[#007740] text-black text-xs py-1 rounded'>
@@ -36,10 +36,10 @@ const ReferralRewards: React.FC = () => {
 
             <div className='border border-gray-400 rounded-xl p-2 flex flex-col'>
               <div className='h-[170px] bg-[#FFFBEC] rounded-lg flex items-center justify-center mb-2'>
-                <img src='/Referrals/Suitcase.png' className='w-[70px]' />
+                <img src='/Referrals/Suitcase.png' className='w-[120px]' />
               </div>
-              <p className='text-[10px] font-medium'>Safari traveler bag</p>
-              <p className='text-[9px] text-gray-400 mb-2'>
+              <p className='text-[13px] font-medium'>Safari traveler bag</p>
+              <p className='text-[11px] text-gray-400 mb-2'>
                 Get fast, reliable delivery with real-time tracking.
               </p>
               <button className='mt-auto bg-[#EAFFF2] border border-[#007740] text-black text-xs py-1 rounded'>
@@ -49,10 +49,10 @@ const ReferralRewards: React.FC = () => {
 
             <div className='border border-gray-400 rounded-xl p-2 flex flex-col'>
               <div className='h-[170px] bg-[#FFECF5] rounded-lg flex items-center justify-center mb-2'>
-                <img src='/Referrals/Tickets.png' className='w-[70px]' />
+                <img src='/Referrals/Tickets.png' className='w-[120px]' />
               </div>
-              <p className='text-[10px] font-medium'>Get 2 PVR Movie Tickets</p>
-              <p className='text-[9px] text-gray-400 mb-2'>
+              <p className='text-[13px] font-medium'>Get 2 PVR Movie Tickets</p>
+              <p className='text-[11px] text-gray-400 mb-2'>
                 Get fast, reliable delivery with real-time tracking.
               </p>
               <button className='mt-auto bg-[#EAFFF2] border border-[#007740] text-black text-xs py-1 rounded'>
@@ -65,7 +65,7 @@ const ReferralRewards: React.FC = () => {
               <div className='w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mb-2'>
                 +
               </div>
-              <p className='text-[10px] text-gray-500'>
+              <p className='text-[13px] text-gray-500'>
                 Add More Rewards in Referral Program
               </p>
             </div>
@@ -102,10 +102,10 @@ const ReferralRewards: React.FC = () => {
               className='border border-gray-400 rounded-xl p-2 flex flex-col'
             >
               <div className='h-[170px] bg-[#ECFAFF] rounded-lg flex items-center justify-center mb-2'>
-                <img src='/Referrals/Tshirt.png' className='w-[70px]' />
+                <img src='/Referrals/Tshirt.png' className='w-[120px]' />
               </div>
-              <p className='text-[10px] font-medium'>{item}</p>
-              <p className='text-[9px] text-gray-400 mb-2'>
+              <p className='text-[13px] font-medium'>{item}</p>
+              <p className='text-[11px] text-gray-400 mb-2'>
                 Get fast, reliable delivery with real-time tracking.
               </p>
               <button className='mt-auto bg-[#FF3838] text-white text-xs py-1 rounded'>
@@ -119,7 +119,7 @@ const ReferralRewards: React.FC = () => {
             <div className='w-10 h-10 rounded-full bg-gray-200 flex items-center justify-center mb-2'>
               +
             </div>
-            <p className='text-[10px] text-gray-500'>
+            <p className='text-[13px] text-gray-500'>
               Add More Services in Referral Ecosystem
             </p>
           </div>
