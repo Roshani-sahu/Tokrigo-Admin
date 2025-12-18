@@ -1,4 +1,5 @@
 import React from 'react'
+import ReferralTable from './ReferralTable'
 
 const ReferralRewards: React.FC = () => {
   return (
@@ -239,6 +240,7 @@ const ReferralRewards: React.FC = () => {
         }lumns: repeat(5, minmax(0, 1fr));
           }
       `}</style>
+      <ReferralTable />
     </div>
   )
 }
