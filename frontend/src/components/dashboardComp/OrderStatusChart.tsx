@@ -51,7 +51,7 @@ const OrderStatusChart = () => {
 
           {/* Center Text */}
           <div className="absolute inset-0 flex flex-col items-center   justify-center">
-            <div className="shadow-xl rounded-full p-4">
+            <div className=" rounded-full p-4">
             <p className="text-xl font-semibold text-gray-800">
               35,000
             </p>

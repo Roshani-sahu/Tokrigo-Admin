@@ -9,6 +9,7 @@ import DeliveryPartnersPage from './pages/DeliveryPartnersPage'
 import Categories from './pages/Categories'
 import AddProduct from './pages/AddProduct'
 import Settings  from './pages/Settings'
+import EditProduct  from './pages/EditProduct'
 const App = () => {
   return (
     <Routes>
@@ -22,6 +23,7 @@ const App = () => {
       <Route path='/categories' element={<Categories />} />
       <Route path='/add-product' element={<AddProduct />} />
       <Route path='/settings' element={<Settings />} />
+      <Route path='/edit-product' element={<EditProduct />} />
     </Routes>
   )
 }

@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useNavigate } from "react-router-dom";
 import DashboardLayout from '../layouts/DashboardLayout'
 
 const products = [
@@ -101,6 +102,8 @@ const statusStyles: Record<string, string> = {
 }
 
 const Products = () => {
+    const navigate = useNavigate();
+
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedItems, setSelectedItems] = useState<number[]>([])
 
@@ -141,7 +144,7 @@ const Products = () => {
         <div className='bg-white rounded-2xl shadow-sm p-5'>
           {/* Top Actions */}
           <div className='flex items-center justify-between mb-4'>
-            <button className='bg-[#546CFC] text-white text-[18px] font-semibold px-5 py-2 rounded-lg'>
+            <button  onClick={() => navigate("/add-product")} className='bg-[#546CFC] text-white text-[18px] font-semibold px-5 py-2 rounded-lg'>
               Add Products
             </button>
 
@@ -246,7 +249,7 @@ const Products = () => {
                     </td>
 
                     <td className='flex items-center justify-center gap-3 py-3'>
-                      <img
+                      <img  onClick={() => navigate("/edit-product")}
                         src={
                           item.status === 'Disabled'
                             ? '/icons/Edit-disabled.png'

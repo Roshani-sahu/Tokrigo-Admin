@@ -1,19 +1,22 @@
 import React from "react";
+import { useNavigate } from "react-router-dom";
 import { ArrowLeft, Plus } from "lucide-react";
 import DashboardLayout from "../layouts/DashboardLayout";
 
 const AddProduct: React.FC = () => {
 
-    const status = "Active"; 
-    
+    // const status = "Active"; 
+      const navigate = useNavigate();
+
   return (
+    
     <DashboardLayout>
     <div className="min-h-screen bg-[#f7faff] ">
 
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
         <button className="w-9 h-9 rounded-full bg-white shadow flex items-center justify-center">
-          <ArrowLeft size={16} />
+          <ArrowLeft  onClick={() => navigate("/products")} size={16} />
         </button>
         <div>
           <h1 className="text-lg font-semibold text-gray-800">
@@ -217,10 +220,10 @@ const AddProduct: React.FC = () => {
 
           {/* Actions */}
           <div className="space-y-3">
-            <button className="w-full bg-green-600 text-white py-2 rounded-lg text-sm font-medium">
+            <button  onClick={() => navigate("/products")} className="w-full bg-green-600 text-white py-2 rounded-lg text-sm font-medium">
               Create Product
             </button>
-            <button className="w-full border py-2 rounded-lg text-sm text-gray-600">
+            <button  onClick={() => navigate("/products")} className="w-full border py-2 rounded-lg text-sm text-gray-600">
               Cancel
             </button>
           </div>
