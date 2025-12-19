@@ -14,14 +14,11 @@ const ListItem: React.FC<ListItemProps> = ({
 }) => {
   return (
     <div
-      className={`group flex items-center justify-between px-4 py-3 rounded-md cursor-pointer transition-colors duration-200
-        ${
-          active
-            ? 'text-[#039E2D] bg-[#F3FFEF]'
-            : 'text-gray-800 hover:bg-[#F3FFEF] hover:text-[#039E2D]'
-        }`}
+      className={`group flex items-center justify-between px-4 py-3 rounded-md cursor-pointer transition-all duration-200
+        ${active ? 'text-[#039E2D] font-medium' : 'text-gray-800'}
+        hover:bg-[#F3FFEF] hover:text-[#039E2D]`}
     >
-      <span className='text-sm font-medium'>{label}</span>
+      <span className='text-sm'>{label}</span>
 
       {showMenu && (
         <MoreVertical
@@ -36,11 +33,11 @@ const ListItem: React.FC<ListItemProps> = ({
 const CardHeader = ({ title }: { title: string }) => (
   <div className='flex items-center justify-between bg-[#5DB875] text-white px-4 py-3 rounded-t-xl'>
     <div className='flex items-center gap-2 text-sm font-medium'>
-      <img src='/icons/GraphIcon.png' alt='icon' className='w-4 h-4' />
+      <img src='/icons/GraphIcon.png' alt='icon' className='w-5 h-5' />
       {title}
     </div>
-    <div className='w-6 h-6 bg-white rounded-full flex items-center justify-center'>
-      <img src='/icons/plusIcon.png' alt='Add' className='w-3 h-3' />
+    <div className='w-8 h-8 bg-white rounded-full flex items-center justify-center shadow-sm hover:shadow-md transition-shadow duration-200'>
+      <img src='/icons/plusIcon.png' alt='Add' className='w-4 h-4' />
     </div>
   </div>
 )
@@ -110,65 +107,71 @@ const CategoryManagement: React.FC = () => {
   }
 
   return (
-    <div className='bg-[#f7faff] h-screen overflow-hidden p-4 md:p-6'>
+    <div className='bg-[#f7faff] h-screen overflow-hidden p-3 md:p-4 lg:p-6'>
       {/* PAGE TITLE */}
-      <div className='mb-4 md:mb-6'>
-        <h2 className='text-lg md:text-xl font-semibold text-gray-800'>
+      <div className='mb-4 md:mb-5 lg:mb-6'>
+        <h1 className='text-lg md:text-xl lg:text-2xl font-semibold text-gray-800'>
           Categories Management
-        </h2>
-        <p className='text-xs md:text-sm text-gray-500'>
+        </h1>
+        <p className='text-xs md:text-sm text-gray-500 mt-1'>
           Organize your products into categories
         </p>
       </div>
 
       {/* GRID CONTAINER - Takes remaining height and is scrollable */}
-      <div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 md:gap-6 h-[calc(100vh-100px)] md:h-[calc(100vh-140px)]'>
+      <div className='grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 md:gap-4 lg:gap-6 h-[calc(100vh-90px)] md:h-[calc(100vh-110px)] lg:h-[calc(100vh-130px)]'>
         {/* GENERAL CATEGORY */}
-        <div className='bg-white rounded-xl shadow-sm flex flex-col h-full'>
+        <div className='bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col h-full'>
           <CardHeader title='General Category' />
-          <div className='p-2 space-y-1 overflow-y-auto flex-grow'>
-            <ListItem label='Grocery & kitchen' active />
+          <div className='p-2 space-y-[1px] overflow-y-auto flex-grow scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100'>
+            <ListItem label='Grocery & kitchen' />
             <ListItem label='Snacks & Drinks' />
             <ListItem label='Beauty & Personal Care' />
             <ListItem label='Household Essentials' />
             <ListItem label='Shop by Store' showMenu={false} />
-            {/* Additional items for scroll */}
             <ListItem label='Beverages' />
             <ListItem label='Frozen Foods' />
             <ListItem label='Health & Wellness' />
             <ListItem label='Baby Care' />
             <ListItem label='Pet Care' />
             <ListItem label='Stationery' />
+            <ListItem label='Home Decor' />
+            <ListItem label='Electronics' />
+            <ListItem label='Clothing & Apparel' />
+            <ListItem label='Sports & Outdoors' />
           </div>
         </div>
 
         {/* MAIN CATEGORY */}
-        <div className='bg-white rounded-xl shadow-sm flex flex-col h-full'>
+        <div className='bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col h-full'>
           <CardHeader title='Main Category' />
-          <div className='p-2 space-y-1 overflow-y-auto flex-grow'>
+          <div className='p-2 space-y-[1px] overflow-y-auto flex-grow scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100'>
             <ListItem label='Vegetables & Fruits' />
             <ListItem label='Atta, Rice & Dal' />
-            <ListItem label='Oil, Ghee & Masala' active />
+            <ListItem label='Oil, Ghee & Masala' />
             <ListItem label='Dairy, Bread & Eggs.' />
             <ListItem label='Bakery & Biscuits' />
             <ListItem label='Dry Fruits & Cereals' />
             <ListItem label='Chicken, meat & Fish' />
             <ListItem label='Kitchenware & Appliances' />
-            {/* Additional items for scroll */}
             <ListItem label='Personal Care' />
             <ListItem label='Home Care' />
             <ListItem label='Beverages' />
             <ListItem label='Snacks & Instant Food' />
             <ListItem label='Baby Care' />
             <ListItem label='Pet Care' />
+            <ListItem label='Pharmacy' />
+            <ListItem label='Garden & Outdoor' />
+            <ListItem label='Books & Media' />
+            <ListItem label='Office Supplies' />
           </div>
         </div>
 
         {/* SUB CATEGORY */}
-        <div className='bg-white rounded-xl shadow-sm flex flex-col h-full'>
+        <div className='bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col h-full'>
           <CardHeader title='Sub Category' />
-          <div className='p-2 space-y-1 overflow-y-auto flex-grow'>
-            <ListItem label='All' active />
+          <div className='p-2 space-y-[1px] overflow-y-auto flex-grow scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100'>
+            <ListItem label='All' />
             <ListItem label='Fresh Vegetables' />
             <ListItem label='Fresh Fruits' />
             <ListItem label='Exotics' />
@@ -178,45 +181,50 @@ const CategoryManagement: React.FC = () => {
             <ListItem label='Seasonal' />
             <ListItem label='Freshly Cut & Sproutes' />
             <ListItem label='Hydroponic' />
-            {/* Additional items for scroll */}
             <ListItem label='Root Vegetables' />
             <ListItem label='Leafy Greens' />
             <ListItem label='Berries' />
             <ListItem label='Citrus Fruits' />
             <ListItem label='Tropical Fruits' />
             <ListItem label='Organic Selection' />
+            <ListItem label='Herbs' />
+            <ListItem label='Mushrooms' />
+            <ListItem label='Peppers' />
+            <ListItem label='Potatoes & Onions' />
           </div>
         </div>
 
         {/* ALL PRODUCTS */}
-        <div className='bg-white rounded-xl shadow-sm flex flex-col h-full'>
+        <div className='bg-white rounded-xl shadow-sm border border-gray-100 flex flex-col h-full'>
           <CardHeader title='All Products' />
-          <div className='p-3 space-y-3 overflow-y-auto flex-grow'>
+          <div className='p-3 space-y-3 overflow-y-auto flex-grow scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-gray-100'>
             {products.map(product => (
               <div
                 key={product.id}
-                className='flex items-center justify-between border border-gray-200 rounded-lg p-3 hover:bg-gray-50 transition-colors duration-200'
+                className='flex items-center justify-between border border-gray-200 rounded-lg p-3 hover:bg-gray-50 transition-all duration-200 hover:shadow-sm'
               >
-                <div className='flex items-center gap-3'>
-                  <div className='w-10 h-10 bg-gray-300 rounded-md flex items-center justify-center overflow-hidden'>
+                <div className='flex items-center gap-3 min-w-0 flex-1'>
+                  <div className='w-10 h-10 bg-gray-400 rounded-md flex items-center justify-center overflow-hidden flex-shrink-0'>
                     <img
                       src={product.image}
                       alt={product.name}
                       className='w-8 h-8 object-contain'
                     />
                   </div>
-                  <div>
-                    <p className='text-sm font-medium text-gray-800'>
+                  <div className='min-w-0'>
+                    <p className='text-sm font-medium text-gray-800 truncate'>
                       {product.name}
                     </p>
-                    <p className='text-xs text-gray-500'>SKU: {product.sku}</p>
+                    <p className='text-xs text-gray-500 truncate'>
+                      SKU: {product.sku}
+                    </p>
                   </div>
                 </div>
 
                 {/* TOGGLE SWITCH */}
                 <button
                   onClick={() => toggleProduct(product.id)}
-                  className={`relative w-12 h-6 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 ${
+                  className={`relative w-12 h-6 rounded-full transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 flex-shrink-0 ml-2 ${
                     product.enabled ? 'bg-green-500' : 'bg-gray-300'
                   }`}
                   aria-label={`Toggle ${product.name}`}
@@ -232,29 +240,31 @@ const CategoryManagement: React.FC = () => {
             ))}
 
             {/* Additional product items for scroll */}
-            {Array.from({ length: 6 }).map((_, i) => (
+            {Array.from({ length: 8 }).map((_, i) => (
               <div
                 key={i + 7}
-                className='flex items-center justify-between border border-gray-200 rounded-lg p-3 hover:bg-gray-50 transition-colors duration-200 opacity-60'
+                className='flex items-center justify-between border border-gray-200 rounded-lg p-3 hover:bg-gray-50 transition-all duration-200 hover:shadow-sm opacity-80'
               >
-                <div className='flex items-center gap-3'>
-                  <div className='w-10 h-10 bg-gray-300 rounded-md flex items-center justify-center overflow-hidden'>
+                <div className='flex items-center gap-3 min-w-0 flex-1'>
+                  <div className='w-10 h-10 bg-gray-400 rounded-md flex items-center justify-center overflow-hidden flex-shrink-0'>
                     <img
                       src='/icons/basmatiImg.png'
                       alt='Product'
                       className='w-8 h-8 object-contain'
                     />
                   </div>
-                  <div>
-                    <p className='text-sm font-medium text-gray-800'>
+                  <div className='min-w-0'>
+                    <p className='text-sm font-medium text-gray-800 truncate'>
                       Additional Product {i + 1}
                     </p>
-                    <p className='text-xs text-gray-500'>SKU: 11{3000 + i}</p>
+                    <p className='text-xs text-gray-500 truncate'>
+                      SKU: 11{3000 + i}
+                    </p>
                   </div>
                 </div>
 
                 {/* Disabled Toggle */}
-                <div className='relative w-12 h-6 bg-gray-200 rounded-full'>
+                <div className='relative w-12 h-6 bg-gray-200 rounded-full flex-shrink-0 ml-2'>
                   <span className='absolute top-1 left-1 w-4 h-4 bg-white rounded-full' />
                 </div>
               </div>
@@ -264,12 +274,37 @@ const CategoryManagement: React.FC = () => {
       </div>
 
       {/* Mobile Navigation Indicator (only visible on mobile) */}
-      <div className='md:hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white rounded-full shadow-lg px-4 py-2 flex items-center gap-1'>
+      <div className='sm:hidden fixed bottom-4 left-1/2 transform -translate-x-1/2 bg-white rounded-full shadow-lg px-4 py-2 flex items-center gap-1 border border-gray-200'>
         <div className='w-2 h-2 bg-green-500 rounded-full'></div>
         <div className='w-2 h-2 bg-gray-300 rounded-full'></div>
         <div className='w-2 h-2 bg-gray-300 rounded-full'></div>
         <div className='w-2 h-2 bg-gray-300 rounded-full'></div>
       </div>
+
+      {/* Custom scrollbar styling */}
+      <style jsx global>{`
+        .scrollbar-thin::-webkit-scrollbar {
+          width: 6px;
+          height: 6px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-track {
+          background: #f1f1f1;
+          border-radius: 10px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb {
+          background: #c1c1c1;
+          border-radius: 10px;
+        }
+        .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+          background: #a8a8a8;
+        }
+
+        /* For Firefox */
+        .scrollbar-thin {
+          scrollbar-width: thin;
+          scrollbar-color: #c1c1c1 #f1f1f1;
+        }
+      `}</style>
     </div>
   )
 }
