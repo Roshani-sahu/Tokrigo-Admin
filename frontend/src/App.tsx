@@ -6,6 +6,7 @@ import Orders from './pages/Orders'
 import Referral from './pages/Referral'
 import CustomerManagement from './pages/CustomerManagement'
 import DeliveryPartnersPage from './pages/DeliveryPartnersPage'
+import Categories from './pages/Categories'
 import AddProduct from './pages/AddProduct'
 import Settings  from './pages/Settings'
 const App = () => {
@@ -18,6 +19,7 @@ const App = () => {
       <Route path='/customers' element={<CustomerManagement />} />
       <Route path='/referrals' element={<Referral />} />
       <Route path='/delivery-partners' element={<DeliveryPartnersPage />} />
+      <Route path='/categories' element={<Categories />} />
       <Route path='/add-product' element={<AddProduct />} />
       <Route path='/settings' element={<Settings />} />
     </Routes>
