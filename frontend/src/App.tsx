@@ -10,6 +10,7 @@ import Categories from './pages/Categories'
 import AddProduct from './pages/AddProduct'
 import Settings  from './pages/Settings'
 import EditProduct  from './pages/EditProduct'
+import Inventory  from './pages/Inventory'
 const App = () => {
   return (
     <Routes>
@@ -24,6 +25,7 @@ const App = () => {
       <Route path='/add-product' element={<AddProduct />} />
       <Route path='/settings' element={<Settings />} />
       <Route path='/edit-product' element={<EditProduct />} />
+      <Route path='/inventory' element={<Inventory />} />
     </Routes>
   )
 }
