@@ -11,6 +11,9 @@ import AddProduct from './pages/AddProduct'
 import Settings  from './pages/Settings'
 import EditProduct  from './pages/EditProduct'
 import Inventory  from './pages/Inventory'
+import OfferPage  from './pages/OfferPage'
+import CustomerSupportTickets from './pages/CustomerSupportTickets'
+import BrandsAndCollaboration from './pages/BrandsAndCollaboration'
 const App = () => {
   return (
     <Routes>
@@ -26,6 +29,9 @@ const App = () => {
       <Route path='/settings' element={<Settings />} />
       <Route path='/edit-product' element={<EditProduct />} />
       <Route path='/inventory' element={<Inventory />} />
+      <Route path='/coupons' element={<OfferPage />} />
+      <Route path='/support' element={<CustomerSupportTickets />} />
+      <Route path='/brands' element={<BrandsAndCollaboration />} />
     </Routes>
   )
 }

@@ -27,6 +27,7 @@ type Rider = {
   bankName: string;
   ifsc: string;
 
+  profileImage: string;
   aadhaarImg: string;
   panImg: string;
   passbookImg: string;
@@ -58,6 +59,7 @@ const initialRiders: Rider[] = [
     aadhaarImg: "/aadhar.png",
     panImg: "/aadhar.png",
     passbookImg: "/aadhar.png",
+    profileImage: "/dashboard/avatar.png",
   },
   {
     id: 2,
@@ -83,6 +85,33 @@ const initialRiders: Rider[] = [
     aadhaarImg: "/aadhar.png",
     panImg: "/aadhar.png",
     passbookImg: "/aadhar.png",
+    profileImage: "/dashboard/avatar.png",
+  },
+  {
+    id: 2,
+    name: "Rohit Verma",
+    phone: "+91 9123456780",
+    deliveries: 12,
+    rating: 4.2,
+    status: "InActive",
+    vehicle: "BaaliGaddi",
+    joinedDate: "11-11-2025",
+    vehicleReg: "MP04 XY 7788",
+    city: "Bhopal",
+    store: "MP Nagar Zone 1",
+    jobType: "Part Time",
+    dob: "09-Feb-2004",
+    gender: "Male",
+    fatherName: "Ram Verma",
+    aadhaar: "874561234567",
+    pan: "ABCDE1234F",
+    bankAcc: "7894561230",
+    bankName: "HDFC",
+    ifsc: "HDFC0001234",
+    aadhaarImg: "/aadhar.png",
+    panImg: "/aadhar.png",
+    passbookImg: "/aadhar.png",
+    profileImage: "/dashboard/avatar.png",
   },
 ];
 
@@ -118,14 +147,18 @@ const RiderDetailsModal = ({
         ✕
       </button>
 
-      <div className="flex justify-between items-start mb-6">
-        <h2 className="text-lg font-semibold">
+      <div className="flex justify-between items-center mb-6">
+        <h2 className="text-lg font-semibold ">
           Delivery Partners Details
         </h2>
-        <div className="w-16 h-16 rounded-lg bg-gray-200" />
+<img
+  src={rider.profileImage}   // replace with your actual image path or URL
+  alt="Thumbnail"
+  className="w-16 h-16 rounded-lg object-cover bg-gray-200"
+/>
       </div>
 
-      <div className="overflow-y-auto max-h-[72vh] pr-2">
+      <div className="overflow-y-auto  max-h-[72vh] pr-2">
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
 
           <Info label="Name" value={rider.name} />
@@ -238,7 +271,7 @@ const DeliveryPartnersTable: React.FC = () => {
       <div className="bg-white rounded-2xl shadow-sm p-4 md:p-5">
 
         {/* RESPONSIVE HEADER */}
-        <div className="flex flex-col gap-4 mb-4 md:flex-row md:justify-between md:items-center">
+        <div className="flex flex-col gap-4 mb-4  md:flex-row md:justify-between md:items-center">
           <h2 className="text-lg font-semibold">
             All Delivery Partners of tokrigo
           </h2>
@@ -266,7 +299,7 @@ const DeliveryPartnersTable: React.FC = () => {
         </div>
 
         {/* TABLE */}
-        <div className="hidden md:block overflow-x-auto">
+        <div className="hidden md:block rounded-lg overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-green-100">
@@ -318,6 +351,78 @@ const DeliveryPartnersTable: React.FC = () => {
             </tbody>
           </table>
         </div>
+{/* MOBILE VIEW */}
+<div className="md:hidden space-y-3">
+  {riders.map((r) => (
+    <div
+      key={r.id}
+      className="bg-white border rounded-xl p-4 shadow-sm"
+    >
+      {/* TOP */}
+      <div className="flex items-center gap-3 mb-3">
+        <img
+          src={r.profileImage}
+          alt={r.name}
+          className="w-12 h-12 rounded-lg object-cover bg-gray-200"
+        />
+
+        <div className="flex-1">
+          <p className="font-semibold text-gray-800">{r.name}</p>
+          <p className="text-sm text-gray-500">{r.phone}</p>
+        </div>
+
+        <span
+          className={`px-3 py-1 rounded-full text-xs ${statusStyle(
+            r.status
+          )}`}
+        >
+          {r.status}
+        </span>
+      </div>
+
+      {/* DETAILS */}
+      <div className="grid grid-cols-2 gap-2 text-sm mb-3">
+        <div>
+          <p className="text-gray-400">Deliveries</p>
+          <p className="font-medium">{r.deliveries}</p>
+        </div>
+        <div>
+          <p className="text-gray-400">Rating</p>
+          <p className="font-medium">⭐ {r.rating}</p>
+        </div>
+        <div>
+          <p className="text-gray-400">Vehicle</p>
+          <p className="font-medium">{r.vehicle}</p>
+        </div>
+        <div>
+          <p className="text-gray-400">City</p>
+          <p className="font-medium">{r.city}</p>
+        </div>
+      </div>
+
+      {/* ACTIONS */}
+      <div className="flex gap-2">
+        <button
+          onClick={() => setSelectedRider(r)}
+          className="flex-1 py-2 rounded-lg bg-yellow-100 text-sm"
+        >
+          View Details
+        </button>
+
+        <button
+          onClick={() => toggleStatus(r.id)}
+          className={`flex-1 py-2 rounded-lg text-sm ${
+            r.status === "InActive"
+              ? "bg-green-100"
+              : "bg-red-100"
+          }`}
+        >
+          {r.status === "InActive" ? "Activate" : "Deactivate"}
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
 
       </div>
 

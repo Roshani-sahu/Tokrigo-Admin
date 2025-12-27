@@ -26,7 +26,7 @@ const menu = [
   { name: "Customers", icon: Users, path: "/customers" },
   { name: "Delivery Partners", icon: Truck, path: "/delivery-partners" },
   { name: "Vendors*", icon: Store, path: "/vendors" },
-  { name: "Coupons", icon: Tag, path: "/coupons" },
+  { name: "Coupons and Discounts", icon: Tag, path: "/coupons" },
   { name: "Referrals", icon: Share2, path: "/referrals" },
   { name: "Offers & Ads", icon: Megaphone, path: "/offers" },
   { name: "Brands*", icon: Award, path: "/brands" },

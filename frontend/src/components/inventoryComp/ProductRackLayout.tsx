@@ -106,7 +106,6 @@ const ProductRackLayout: React.FC = () => {
   const onDragStart = (product: Product) => {
     setDraggedProduct(product);
   };
-
   /* DROP INTO RACK */
   const onDrop = (sectionName: string, rackId: string) => {
     if (!draggedProduct) return;
@@ -133,7 +132,7 @@ const ProductRackLayout: React.FC = () => {
     <div className="flex h-screen bg-[#f7faff]">
 
       {/* ================= LEFT SIDEBAR (20%) ================= */}
-      <div className="w-1/5 bg-white border-r p-4 overflow-y-auto">
+      <div className="w-1/5 bg-white border-r p-4 rounded-xl overflow-y-auto">
         <h3 className="font-semibold mb-4">Products</h3>
 
         <div className="space-y-3">
@@ -167,7 +166,7 @@ const ProductRackLayout: React.FC = () => {
 
       {/* ================= RIGHT MAIN AREA (80%) ================= */}
       <div className="flex-1 p-6 overflow-y-auto">
-        <h3 className="font-semibold mb-6">Racks Layout</h3>
+        <h3 className="font-semibold mb-6">Racks </h3>
 
         <div className="grid grid-cols-1 gap-8">
           {sections.map((section) => (

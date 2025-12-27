@@ -53,45 +53,54 @@ const ReferralTable: React.FC = () => {
       {/* CARD */}
       <div className='bg-white rounded-2xl shadow-sm p-4 md:p-5 mt-4'>
         {/* CARD HEADER */}
-        <div className='flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-4'>
-          {/* LEFT */}
-          <div className='flex items-center gap-2'>
-            <div className='w-12 h-12 rounded bg-[#EAF0FF] flex items-center justify-center flex-shrink-0'>
-              <img
-                src='/icons/GraphIcon.png'
-                alt='Graph'
-                className='w-8 h-8 object-contain'
-              />
-            </div>
-            <h2 className='text-[20px] font-semibold text-[#2D2D2D] whitespace-nowrap'>
-              Overview of referral program
-            </h2>
-          </div>
+        <div className="flex flex-col gap-4 mb-4 md:flex-row md:justify-between md:items-center">
+  
+  {/* LEFT */}
+  <div className="flex items-center gap-2">
+    <div className="w-12 h-12 rounded bg-[#EAF0FF] flex items-center justify-center flex-shrink-0">
+      <img
+        src="/icons/GraphIcon.png"
+        alt="Graph"
+        className="w-8 h-8 object-contain"
+      />
+    </div>
 
-          {/* RIGHT CONTROLS */}
-          <div className='flex flex-wrap items-center gap-2'>
-            <div className='relative'>
-              <Search className='absolute left-3 top-2.5 w-4 h-4 text-gray-400' />
-              <input
-                type='text'
-                placeholder='Search Customers by phone...'
-                className='pl-9 pr-4 text-sm border rounded-lg focus:outline-none w-[297px] h-[37px]'
-              />
-            </div>
+    <h2 className="text-lg md:text-[20px] font-semibold text-[#2D2D2D]">
+      Overview of referral program
+    </h2>
+  </div>
 
-            <button className='flex items-center text-gray-400 gap-1 px-3 h-[28px] border rounded-lg text-sm'>
-              <Filter size={10} />
-              Filter
-            </button>
+  {/* RIGHT CONTROLS */}
+  <div className="flex flex-col gap-3 w-full md:w-auto md:flex-row md:items-center">
+    
+    {/* SEARCH */}
+    <div className="relative w-full md:w-[297px]">
+      <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+      <input
+        type="text"
+        placeholder="Search Customers by phone..."
+        className="w-full h-[37px] pl-9 pr-4 text-sm border rounded-lg focus:outline-none"
+      />
+    </div>
 
-            <button className='border rounded-lg text-gray-400 w-9 h-[28px] flex items-center justify-center'>
-              <ChevronLeft size={10} />
-            </button>
-            <button className='border rounded-lg text-gray-400 w-9 h-[28px] flex items-center justify-center'>
-              <ChevronRight size={10} />
-            </button>
-          </div>
-        </div>
+    {/* ACTIONS */}
+    <div className="flex items-center gap-2">
+      <button className="flex items-center gap-1 px-3 h-[28px] border rounded-lg text-sm text-gray-400">
+        <Filter size={10} />
+        Filter
+      </button>
+
+      <button className="border rounded-lg text-gray-400 w-9 h-[28px] flex items-center justify-center">
+        <ChevronLeft size={10} />
+      </button>
+
+      <button className="border rounded-lg text-gray-400 w-9 h-[28px] flex items-center justify-center">
+        <ChevronRight size={10} />
+      </button>
+    </div>
+  </div>
+</div>
+
 
         {/* ================= DESKTOP TABLE ================= */}
         <div className='hidden md:block rounded-xl overflow-x-auto'>
