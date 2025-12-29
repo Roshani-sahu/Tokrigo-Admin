@@ -16,6 +16,8 @@ import CustomerSupportTickets from './pages/CustomerSupportTickets'
 import BrandsAndCollaboration from './pages/BrandsAndCollaboration'
 import OffersAds from './pages/OffersAdsPage'
 import ReportsAnalytics from './pages/ReportsAnalytics'
+import SeeDetails from './components/inventoryComp/SeeDetails'
+import ProductManagement from './components/inventoryComp/ProductManagement'
 const App = () => {
   return (
     <Routes>
@@ -36,6 +38,8 @@ const App = () => {
       <Route path='/brands' element={<BrandsAndCollaboration />} />
       <Route path='/offers' element={<OffersAds />} />
       <Route path='/reports' element={<ReportsAnalytics />} />
+      <Route path='/see-details' element={<SeeDetails />} />
+      <Route path='/see-details1' element={<ProductManagement />} />
     </Routes>
   )
 }
