@@ -175,8 +175,9 @@ const ReportsAnalytics: React.FC = () => {
                   <Tooltip />
                   <Bar
                     dataKey="users"
-                    fill="#86efac"
-                    radius={[6, 6, 0, 0]}
+                    fill="#7ADC9E"
+                    barSize={35}
+              
                   />
                 </BarChart>
               </ResponsiveContainer>
