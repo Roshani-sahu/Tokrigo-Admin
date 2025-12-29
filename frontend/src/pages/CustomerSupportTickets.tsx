@@ -179,7 +179,7 @@ const CustomerSupportTickets = () => {
       <div className="bg-white rounded-2xl shadow-sm p-5">
         <h2 className="text-lg font-semibold mb-4">All Tickets</h2>
 
-        <div className="overflow-x-auto">
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="text-gray-500 border-b">
@@ -244,78 +244,182 @@ const CustomerSupportTickets = () => {
             </tbody>
           </table>
         </div>
+
+        {/* MOBILE VIEW */}
+<div className="md:hidden space-y-3">
+  {tickets.map((t) => (
+    <div
+      key={t.id}
+      className="bg-white border rounded-xl p-4 shadow-sm"
+    >
+      {/* TOP ROW */}
+      <div className="flex justify-between items-start mb-2">
+        <div>
+          <p className="text-xs text-gray-400">Ticket ID</p>
+          <p className="font-semibold text-gray-800">{t.id}</p>
+        </div>
+
+        <span
+          className={`px-3 py-1 rounded text-xs ${statusStyle(
+            t.status
+          )}`}
+        >
+          {t.status}
+        </span>
+      </div>
+
+      {/* USER */}
+      <div className="mb-2">
+        <p className="text-xs text-gray-400">User</p>
+        <p className="font-medium">{t.name}</p>
+      </div>
+
+      {/* SUBJECT */}
+      <div className="mb-2">
+        <p className="text-xs text-gray-400">Subject</p>
+        <p className="text-sm text-gray-700">{t.subject}</p>
+      </div>
+
+      {/* META */}
+      <div className="grid grid-cols-2 gap-2 text-sm mb-3">
+        <div>
+          <p className="text-xs text-gray-400">User Type</p>
+          <span
+            className={`px-2 py-1 rounded text-xs ${statusStylee(
+              t.type
+            )}`}
+          >
+            {t.type}
+          </span>
+        </div>
+
+        <div>
+          <p className="text-xs text-gray-400">Priority</p>
+          <span
+            className={`px-2 py-1 rounded text-xs ${priorityStyle(
+              t.priority
+            )}`}
+          >
+            {t.priority}
+          </span>
+        </div>
+      </div>
+
+      {/* DATE + ACTION */}
+      <div className="flex justify-between items-center">
+        <p className="text-xs text-gray-400">{t.date}</p>
+
+        <button
+          onClick={() => setSelected(t)}
+          className="border px-4 py-2 rounded-lg text-sm hover:bg-gray-100"
+        >
+          View
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
+
       </div>
 
       {/* MODAL */}
       {selected && (
-        <div className="fixed inset-0 z-50 bg-black/80 flex justify-center items-end sm:items-center">
-          <div className="bg-white w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl p-6">
-            <h3 className="font-semibold mb-4">
-              Ticket Details – {selected.id}
-            </h3>
+<div className="fixed -top-10 md:top-0 left-0  w-full h-full z-50 bg-black/70 flex items-end sm:items-center justify-center">
+    
+    {/* MODAL */}
+    <div className="bg-white w-full sm:max-w-lg rounded-t-2xl sm:rounded-2xl flex flex-col  max-h-[90vh]">
+      
+      {/* HEADER */}
+      <div className="flex justify-between items-center px-6 py-4 border-b">
+        <h3 className="font-semibold text-base">
+          Ticket Details – {selected.id}
+        </h3>
+        <button
+          onClick={() => setSelected(null)}
+          className="text-gray-400 hover:text-gray-700"
+        >
+          ✕
+        </button>
+      </div>
 
-            <div className="grid grid-cols-2 gap-4 text-sm mb-4">
-              <Info label="Customer" value={selected.name} />
-              <Info label="Email" value={selected.email} />
-              <Info
-                label="Priority"
-                value={
-                  <span
-                    className={`px-2 py-1 rounded text-xs ${priorityStyle(
-                      selected.priority
-                    )}`}
-                  >
-                    {selected.priority}
-                  </span>
-                }
-              />
-              <Info
-                label="Status"
-                value={
-                  <span
-                    className={`px-2 py-1 rounded text-xs ${statusStyle(
-                      selected.status
-                    )}`}
-                  >
-                    {selected.status}
-                  </span>
-                }
-              />
-              <Info label="Subject" value={selected.subject} />
-            </div>
+      {/* BODY */}
+      <div className="px-6 py-4 overflow-y-auto text-sm flex-1">
+        
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-4">
+          <Info label="Customer" value={selected.name} />
+          <Info label="Email" value={selected.email} />
 
-            <div className="mb-4">
-              <label className="text-xs text-gray-500">Update Status</label>
-              <select className="w-full border rounded-lg px-3 py-2 text-sm">
-                <option>Open</option>
-                <option>In Progress</option>
-                <option>Resolved</option>
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label className="text-xs text-gray-500">Response</label>
-              <textarea
-                className="w-full border rounded-lg px-3 py-2 text-sm"
-                placeholder="Type your response..."
-                rows={3}
-              />
-            </div>
-
-            <div className="flex gap-3">
-              <button className="bg-green-500 text-white px-4 py-2 rounded text-sm">
-                Send Response
-              </button>
-              <button
-                onClick={() => setSelected(null)}
-                className="border px-4 py-2 rounded text-sm"
+          <Info
+            label="Priority"
+            value={
+              <span
+                className={`px-2 py-1 rounded text-xs ${priorityStyle(
+                  selected.priority
+                )}`}
               >
-                Update Status
-              </button>
-            </div>
-          </div>
+                {selected.priority}
+              </span>
+            }
+          />
+
+          <Info
+            label="Status"
+            value={
+              <span
+                className={`px-2 py-1 rounded text-xs ${statusStyle(
+                  selected.status
+                )}`}
+              >
+                {selected.status}
+              </span>
+            }
+          />
+
+          <Info label="Subject" value={selected.subject} />
         </div>
-      )}
+
+        {/* UPDATE STATUS */}
+        <div className="mb-4">
+          <label className="text-xs text-gray-500 mb-1 block">
+            Update Status
+          </label>
+          <select className="w-full border rounded-lg px-3 py-2 text-sm">
+            <option>Open</option>
+            <option>In Progress</option>
+            <option>Resolved</option>
+          </select>
+        </div>
+
+        {/* RESPONSE */}
+        <div>
+          <label className="text-xs text-gray-500 mb-1 block">
+            Response
+          </label>
+          <textarea
+            className="w-full border rounded-lg px-3 py-2 text-sm resize-none"
+            placeholder="Type your response..."
+            rows={4}
+          />
+        </div>
+      </div>
+
+      {/* FOOTER (Sticky on Mobile) */}
+      <div className="px-6 py-4 border-t flex gap-3">
+        <button className="flex-1 bg-green-500 text-white py-2 rounded-lg text-sm">
+          Send Response
+        </button>
+
+        <button
+          onClick={() => setSelected(null)}
+          className="flex-1 border py-2 rounded-lg text-sm"
+        >
+          Update Status
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
     </div>
     </DashboardLayout>
   );
