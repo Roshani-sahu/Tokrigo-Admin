@@ -163,31 +163,36 @@ const Brands = () => {
       {/* ================= TABLE CARD ================= */}
       <div className="bg-white rounded-2xl shadow-sm p-5">
         {/* TABLE HEADER */}
-        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-4">
-          <h3 className="font-semibold text-gray-800">
-            Brands Performance Analytics
-          </h3>
+        <div className="flex flex-col gap-4 mb-4 md:flex-row md:items-center md:justify-between">
+  
+  {/* TITLE */}
+  <h3 className="font-semibold text-gray-800 text-base md:text-lg">
+    Brands Performance Analytics
+  </h3>
 
-          <div className="flex items-center gap-2">
-            {/* SEARCH */}
-            <div className="relative">
-              <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
-              <input
-                placeholder="Search Brands here..."
-                className="pl-9 pr-3 py-2 text-sm border rounded-lg focus:outline-none"
-              />
-            </div>
+  {/* CONTROLS */}
+  <div className="flex flex-col sm:flex-row gap-2 w-full md:w-auto">
+    
+    {/* SEARCH */}
+    <div className="relative w-full sm:w-64">
+      <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+      <input
+        placeholder="Search Brands here..."
+        className="w-full pl-9 pr-3 py-2 text-sm border rounded-lg focus:outline-none"
+      />
+    </div>
 
-            {/* FILTER */}
-            <button className="px-3 py-2 border rounded-lg text-sm flex items-center gap-1">
-              <Filter size={14} />
-              Filter
-            </button>
-          </div>
-        </div>
+    {/* FILTER */}
+    <button className="w-full sm:w-auto px-3 py-2 border rounded-lg text-sm flex items-center justify-center gap-1">
+      <Filter size={14} />
+      Filter
+    </button>
+  </div>
+</div>
+
 
         {/* TABLE */}
-        <div className="overflow-x-auto">
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-green-100">
@@ -232,6 +237,58 @@ const Brands = () => {
             </tbody>
           </table>
         </div>
+
+        {/* MOBILE VIEW Table*/}
+<div className="md:hidden space-y-3 ">
+  {brandsTable.map((b, i) => (
+    <div
+      key={i}
+      className="bg-white border rounded-xl p-4 shadow-sm"
+    >
+      {/* HEADER */}
+      <div className="flex items-center gap-3 mb-3">
+        <img
+          src={b.image}
+          alt={b.name}
+          className="w-10 h-10 rounded-full object-contain bg-gray-100"
+        />
+        <div>
+          <p className="font-semibold text-gray-800">{b.name}</p>
+          <p className="text-sm text-yellow-500">⭐ {b.rating}</p>
+        </div>
+      </div>
+
+      {/* DATA */}
+      <div className="grid grid-cols-2 gap-3 text-sm">
+        <div>
+          <p className="text-gray-400 text-xs">Net Sales</p>
+          <p className="font-medium">{b.sales}</p>
+        </div>
+
+        <div>
+          <p className="text-gray-400 text-xs">Units Sold</p>
+          <p className="font-medium">{b.units}</p>
+        </div>
+
+        <div>
+          <p className="text-gray-400 text-xs">Return Rate</p>
+          <p className="font-medium">{b.returnRate}</p>
+        </div>
+
+        <div>
+          <p className="text-gray-400 text-xs">Order Frequency</p>
+          <p className="font-medium">{b.frequency}</p>
+        </div>
+
+        <div>
+          <p className="text-gray-400 text-xs">Dead Stock %</p>
+          <p className="font-medium">{b.deadStock}</p>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
       </div>
     </div>
   );

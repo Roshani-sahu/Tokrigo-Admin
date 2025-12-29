@@ -143,7 +143,7 @@ const Collaboration = () => {
         </div>
 
         {/* TABLE */}
-        <div className="overflow-x-auto">
+        <div className="hidden md:block overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
               <tr className="bg-green-100">
@@ -193,6 +193,55 @@ const Collaboration = () => {
             </tbody>
           </table>
         </div>
+
+        {/* MOBILE VIEW */}
+<div className="md:hidden space-y-3">
+  {collaborations.map((c, i) => (
+    <div
+      key={i}
+      className="bg-white border rounded-xl p-4 shadow-sm"
+    >
+      {/* HEADER */}
+      <div className="flex items-center gap-3 mb-3">
+        <img
+          src={c.image}
+          alt={c.brand}
+          className="w-10 h-10 rounded-full border object-contain bg-white"
+        />
+
+        <div className="flex-1">
+          <p className="font-semibold text-gray-800">{c.brand}</p>
+          <span className="inline-block mt-1 bg-orange-100 text-orange-600 px-3 py-1 rounded text-xs">
+            {c.type}
+          </span>
+        </div>
+
+        <span className="bg-green-100 text-green-600 px-3 py-1 rounded text-xs">
+          {c.status}
+        </span>
+      </div>
+
+      {/* DETAILS */}
+      <div className="grid grid-cols-2 gap-3 text-sm">
+        <div>
+          <p className="text-gray-400 text-xs">Start Date</p>
+          <p className="font-medium">{c.start}</p>
+        </div>
+
+        <div>
+          <p className="text-gray-400 text-xs">End Date</p>
+          <p className="font-medium">{c.end}</p>
+        </div>
+
+        <div>
+          <p className="text-gray-400 text-xs">Commission</p>
+          <p className="font-medium">{c.commission}</p>
+        </div>
+      </div>
+    </div>
+  ))}
+</div>
+
       </div>
     </div>
   );
