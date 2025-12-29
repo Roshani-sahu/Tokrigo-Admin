@@ -44,7 +44,7 @@ const collaborations = [
   {
     brand: "Tata Sampann",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/3/32/Tata_Sampann_Logo.png",
+      "/icons/tataIcon.png",
     type: "Promotional",
     start: "02-03-2025",
     end: "02-05-2025",
@@ -54,7 +54,7 @@ const collaborations = [
   {
     brand: "Aashirvaad",
     image:
-      "https://upload.wikimedia.org/wikipedia/commons/8/8c/Aashirvaad_logo.png",
+      "/icons/tataIcon.png",
     type: "Exclusive Brand",
     start: "10-02-2025",
     end: "10-06-2025",

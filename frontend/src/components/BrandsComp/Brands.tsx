@@ -43,7 +43,7 @@ const brandStats = [
 const brandsTable = [
   {
     name: "Tata Sampann",
-    image: "https://upload.wikimedia.org/wikipedia/commons/4/44/Tata_logo.svg",
+    image: "/icons/tataIcon.png",
     sales: "Rs. 45,000/-",
     units: "450",
     returnRate: "4%pm",
@@ -53,7 +53,7 @@ const brandsTable = [
   },
   {
     name: "Tata Sampann",
-    image: "https://upload.wikimedia.org/wikipedia/commons/4/44/Tata_logo.svg",
+    image: "/icons/tataIcon.png",
     sales: "Rs. 45,000/-",
     units: "450",
     returnRate: "4%pm",
@@ -63,7 +63,7 @@ const brandsTable = [
   },
   {
     name: "Tata Sampann",
-    image: "https://upload.wikimedia.org/wikipedia/commons/4/44/Tata_logo.svg",
+    image: "/icons/tataIcon.png",
     sales: "Rs. 45,000/-",
     units: "450",
     returnRate: "4%pm",
@@ -73,7 +73,7 @@ const brandsTable = [
   },
   {
     name: "Tata Sampann",
-    image: "https://upload.wikimedia.org/wikipedia/commons/4/44/Tata_logo.svg",
+    image: "/icons/tataIcon.png",
     sales: "Rs. 45,000/-",
     units: "450",
     returnRate: "4%pm",
@@ -83,7 +83,7 @@ const brandsTable = [
   },
   {
     name: "Tata Sampann",
-    image: "https://upload.wikimedia.org/wikipedia/commons/4/44/Tata_logo.svg",
+    image: "/icons/tataIcon.png",
     sales: "Rs. 45,000/-",
     units: "450",
     returnRate: "4%pm",
@@ -93,7 +93,7 @@ const brandsTable = [
   },
   {
     name: "Tata Sampann",
-    image: "https://upload.wikimedia.org/wikipedia/commons/4/44/Tata_logo.svg",
+    image: "/icons/tataIcon.png",
     sales: "Rs. 45,000/-",
     units: "450",
     returnRate: "4%pm",
@@ -103,7 +103,7 @@ const brandsTable = [
   },
   {
     name: "Aashirvaad",
-    image: "https://upload.wikimedia.org/wikipedia/commons/6/6a/Aashirvaad_logo.png",
+    image: "/icons/tataIcon.png",
     sales: "Rs. 38,200/-",
     units: "390",
     returnRate: "3%pm",
@@ -192,10 +192,10 @@ const Brands = () => {
 
 
         {/* TABLE */}
-        <div className="hidden md:block overflow-x-auto">
-          <table className="w-full text-sm">
+        <div className="hidden rounded-xl md:block overflow-x-auto">
+          <table className="w-full  text-sm">
             <thead>
-              <tr className="bg-green-100">
+              <tr className="bg-green-100 ">
                 <th className="p-3 text-left">Brands Identity</th>
                 <th className="p-3 text-left">Net Sales</th>
                 <th className="p-3 text-left">Unit Sold</th>

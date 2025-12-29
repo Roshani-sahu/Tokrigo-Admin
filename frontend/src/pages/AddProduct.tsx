@@ -15,8 +15,8 @@ const AddProduct: React.FC = () => {
 
       {/* Header */}
       <div className="flex items-center gap-3 mb-6">
-        <button className="w-9 h-9 rounded-full bg-white shadow flex items-center justify-center">
-          <ArrowLeft  onClick={() => navigate("/products")} size={16} />
+        <button onClick={() => navigate("/products")} className="w-9 h-9 rounded-full bg-white shadow flex items-center justify-center">
+          <ArrowLeft   size={16} />
         </button>
         <div>
           <h1 className="text-lg font-semibold text-gray-800">
