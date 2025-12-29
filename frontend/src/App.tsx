@@ -15,6 +15,7 @@ import OfferPage  from './pages/OfferPage'
 import CustomerSupportTickets from './pages/CustomerSupportTickets'
 import BrandsAndCollaboration from './pages/BrandsAndCollaboration'
 import OffersAds from './pages/OffersAdsPage'
+import ReportsAnalytics from './pages/ReportsAnalytics'
 const App = () => {
   return (
     <Routes>
@@ -34,6 +35,7 @@ const App = () => {
       <Route path='/support' element={<CustomerSupportTickets />} />
       <Route path='/brands' element={<BrandsAndCollaboration />} />
       <Route path='/offers' element={<OffersAds />} />
+      <Route path='/reports' element={<ReportsAnalytics />} />
     </Routes>
   )
 }
