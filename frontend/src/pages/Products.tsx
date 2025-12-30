@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from '../layouts/DashboardLayout'
+import { Search, ChevronLeft, ChevronRight, SlidersHorizontal, } from 'lucide-react'
 
 const products = [
   {
@@ -144,25 +145,36 @@ const Products = () => {
         <div className='bg-white rounded-2xl shadow-sm p-5'>
           {/* Top Actions */}
           <div className='flex items-center justify-between mb-4'>
-            <button  onClick={() => navigate("/add-product")} className='bg-[#546CFC] text-white text-[18px] font-semibold px-5 py-2 rounded-lg'>
+           
+
+              <div className="flex flex-col md:flex-row  items-center gap-2">
+          <div className="relative w-[280px]">
+            <Search className="absolute left-3 top-2.5 w-8 h-4 text-gray-400" />
+            <input
+              type="text"
+              placeholder="Search products in stocks..."
+              className="pl-12 w-full pr-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            />
+          </div>
+
+          <button className="flex items-center gap-1 border rounded-lg px-3 py-2 text-sm">
+            <SlidersHorizontal className="w-4 h-4" />
+            Filter
+          </button>
+
+          <div className="flex gap-1">
+            <button className="border rounded-lg p-2">
+              <ChevronLeft size={16} />
+            </button>
+            <button className="border rounded-lg p-2">
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </div>
+
+             <button  onClick={() => navigate("/add-product")} className='bg-[#546CFC] text-white text-[18px] font-semibold px-5 py-2 rounded-lg'>
               Add Products
             </button>
-
-            <div className='flex items-center gap-2 text-sm text-gray-600'>
-              <button className='border px-3 py-1 rounded-md'>Filter</button>
-              <button
-                onClick={() => setCurrentPage(1)}
-                className='border px-2 py-1 rounded-md hover:bg-gray-50'
-              >
-                ‹
-              </button>
-              <button
-                onClick={() => setCurrentPage(2)}
-                className='border px-2 py-1 rounded-md hover:bg-gray-50'
-              >
-                ›
-              </button>
-            </div>
           </div>
 
           {/* Table */}

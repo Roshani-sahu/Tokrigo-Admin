@@ -98,14 +98,14 @@ const StockOverview = () => {
         </h2>
 
         <div className="flex flex-col md:flex-row items-center gap-2">
-          <div className="relative ">
-            <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search products in stocks..."
-              className="pl-9 pr-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500"
-            />
-          </div>
+         <div className="relative w-[280px]">
+                     <Search className="absolute left-3 top-2.5 w-8 h-4 text-gray-400" />
+                     <input
+                       type="text"
+                       placeholder="Search products in stocks..."
+                       className="pl-12 w-full pr-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                     />
+                   </div>
 
           <button className="flex items-center gap-1 border rounded-lg px-3 py-2 text-sm">
             <SlidersHorizontal className="w-4 h-4" />
