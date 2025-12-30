@@ -1,4 +1,4 @@
-import { Search, ChevronLeft, ChevronRight, SlidersHorizontal } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight, SlidersHorizontal, TrendingUp } from "lucide-react";
 
 type StockItem = {
   id: string;
@@ -86,11 +86,15 @@ const StockOverview = () => {
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <h2 className="text-lg font-semibold flex text-heading items-center gap-2">
-           <img
+           {/* <img
     src="/dashboard/icon5.png"
     alt="Stock overview"
     className="w-10 h-10"
-  /> Current Stock Overview
+  />  */}
+<div className="w-12 h-12 bg-gray-100 text-green-600 rounded-lg flex items-center justify-center">
+  <TrendingUp size={24} />
+</div>
+  Current Stock Overview
         </h2>
 
         <div className="flex flex-col md:flex-row items-center gap-2">
@@ -122,7 +126,7 @@ const StockOverview = () => {
       {/* Desktop Table */}
       <div className="hidden md:block rounded-md overflow-x-auto">
         <table className="w-full  border-collapse">
-          <thead className="bg-[#E1FFEC] text-sm text-gray-600">
+          <thead className="bg-green-grad text-sm text-white">
             <tr>
               <th className="px-4 py-5 text-left">Products ID</th>
               <th className="px-4 py-5 text-left">Products</th>

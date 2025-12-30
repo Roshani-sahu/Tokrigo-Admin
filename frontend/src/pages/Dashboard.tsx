@@ -1,10 +1,9 @@
 import DashboardLayout from "../layouts/DashboardLayout";
-import { ArrowUpRight, ArrowDownRight } from "lucide-react";
+import { ArrowUpRight, ArrowDownRight , ChartNoAxesCombined, Package , Ban, Users} from "lucide-react";
  import RevenueOverviewChart from "../components/dashboardComp/RevenueOverviewChart";
 import CurrentStockOverview from "../components/dashboardComp/CurrentStockOverview";
  import BusyPeriodsHeatMap from "../components/dashboardComp/BusyPeriodsHeatMap";
  import OrderStatusChart from "../components/dashboardComp/OrderStatusChart";
-
 
 
 const stats = [
@@ -14,8 +13,8 @@ const stats = [
     trend: "+2.08%",
     positive: true,
     iconBg: "bg-blue-500",
-        icon: "/dashboard/icon1.png",
-
+    icon: ChartNoAxesCombined,
+    
   },
   {
     title: "Total Sales (Units)",
@@ -23,8 +22,7 @@ const stats = [
     trend: "-2.08%",
     positive: false,
     iconBg: "bg-green-500",
-        icon: "/dashboard/icon2.png",
-
+    icon: Package,
   },
   {
     title: "Order Cancelled",
@@ -32,18 +30,18 @@ const stats = [
     trend: "-2.08%",
     positive: false,
     iconBg: "bg-red-500",
-        icon: "/dashboard/icon2.png",
-
+    icon: Ban,
   },
   {
     title: "Total Visitors",
     value: "15,000",
     trend: "-2.08%",
     positive: false,
-    iconBg: "bg-lime-400",
-    icon: "/dashboard/icon4.png",
+    iconBg: "bg-yellow-400",
+    icon: Users,
   },
 ];
+
 
 
 const Dashboard = () => {
@@ -92,11 +90,9 @@ const Dashboard = () => {
         <div
           className={`w-10 h-10 rounded-full flex items-center justify-center text-white ${item.iconBg}`}
         >
-  <img
-    src={item.icon}
-    alt=""
-    className="w-5 h-5 object-contain"
-  />        </div>
+                    <item.icon className="w-5 h-5" />
+          
+        </div>
       </div>
     ))}
   </div>

@@ -69,7 +69,7 @@ const RevenueOverviewChart = () => {
                <Bar
                  dataKey="value"
                  radius={[1, 1, 0, 0]}
-                 barSize={28}
+                 barSize={36}
                >
                  {revenueData.map((entry, index) => (
                    <Cell
