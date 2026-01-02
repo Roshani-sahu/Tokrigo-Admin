@@ -176,7 +176,7 @@ type CardHeaderProps = {
 }
 
 const CardHeader: React.FC<CardHeaderProps> = ({ title, onAddClick, showAdd = true }) => (
-  <div className='flex items-center justify-between bg-[#5DB875] text-white px-4 py-3 rounded-t-xl'>
+  <div className='flex items-center justify-between bg-green-grad text-white px-4 py-3 rounded-t-xl'>
     <div className='flex items-center gap-2 text-sm font-medium'>
       <img src='/icons/GraphIcon.png' alt='icon' className='w-5 h-5' />
       {title}
@@ -326,7 +326,7 @@ const Dialog: React.FC<DialogProps> = ({ isOpen, title, placeholder, onClose, on
           </button>
           <button
             onClick={handleSubmit}
-            className='px-4 py-2 bg-[#5DB875] text-white rounded-md hover:bg-[#4a9a64] transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
+            className='px-4 py-2 bg-green-grad text-white rounded-md hover:bg-[#4a9a64] transition-colors disabled:opacity-50 disabled:cursor-not-allowed'
             disabled={!value.trim()}
           >
             Create

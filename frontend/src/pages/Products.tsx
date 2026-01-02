@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useNavigate } from "react-router-dom";
 import DashboardLayout from '../layouts/DashboardLayout'
-import { Search, ChevronLeft, ChevronRight, SlidersHorizontal, } from 'lucide-react'
+import { Search, ChevronLeft, ChevronRight, SlidersHorizontal, Trash2 } from 'lucide-react'
 
 const products = [
   {
@@ -102,17 +102,90 @@ const statusStyles: Record<string, string> = {
   'Re-Order': 'bg-[#FFECC6] text-[#FF6E00]'
 }
 
-const Products = () => {
-    const navigate = useNavigate();
+const DeleteConfirmModal = ({
+  open,
+  onClose,
+  onConfirm,
+  title = "Delete Product",
+  description = "Are you sure you want to delete this product? This action cannot be undone.",
+}: {
+  open: boolean;
+  onClose: () => void;
+  onConfirm: () => void;
+  title?: string;
+  description?: string;
+}) => {
+  if (!open) return null;
 
+  return (
+    <div className="fixed top-0 left-0 w-full h-full z-50 bg-black/70 flex items-center justify-center">
+      <div className="bg-white w-full max-w-sm rounded-2xl p-6">
+        {/* HEADER */}
+        <h3 className="text-lg font-semibold text-gray-800 mb-2">
+          {title}
+        </h3>
+
+        {/* MESSAGE */}
+        <p className="text-sm text-gray-500 mb-6">
+          {description}
+        </p>
+
+        {/* ACTIONS */}
+        <div className="flex justify-end gap-3">
+          <button
+            onClick={onClose}
+            className="px-4 py-2 text-sm border rounded-lg"
+          >
+            Cancel
+          </button>
+
+          <button
+            onClick={onConfirm}
+            className="px-4 py-2 text-sm bg-red-600 text-white rounded-lg"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+const Products = () => {
+  const navigate = useNavigate();
+  
   const [currentPage, setCurrentPage] = useState(1)
   const [selectedItems, setSelectedItems] = useState<number[]>([])
-
+  const [searchTerm, setSearchTerm] = useState('')
+  const [statusFilter, setStatusFilter] = useState('All')
+  const [filterOpen, setFilterOpen] = useState(false)
+  const [showDeleteConfirm, setShowDeleteConfirm] = useState(false)
+  const [itemToDelete, setItemToDelete] = useState<number | null>(null)
+  const [productList, setProductList] = useState(products)
+  
+  const itemsPerPage = 5
+  
+  // Filter and search products
+  const filteredProducts = useMemo(() => {
+    return productList.filter(product => {
+      const matchesSearch = product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           product.brand.toLowerCase().includes(searchTerm.toLowerCase())
+      const matchesStatus = statusFilter === 'All' || product.status === statusFilter
+      return matchesSearch && matchesStatus
+    })
+  }, [productList, searchTerm, statusFilter])
+  
+  // Pagination
+  const totalPages = Math.ceil(filteredProducts.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const displayProducts = filteredProducts.slice(startIndex, startIndex + itemsPerPage)
+  
   useEffect(() => {
     setSelectedItems([])
-  }, [currentPage])
-
-  const displayProducts = currentPage === 1 ? products : [...products].reverse()
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(1)
+    }
+  }, [currentPage, totalPages])
 
   const handleSelectAll = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.checked) {
@@ -127,6 +200,35 @@ const Products = () => {
       setSelectedItems(selectedItems.filter((i) => i !== index))
     } else {
       setSelectedItems([...selectedItems, index])
+    }
+  }
+  
+  const handleDeleteSelected = () => {
+    const selectedProductIndexes = selectedItems.map(i => startIndex + i)
+    const updatedProducts = productList.filter((_, index) => !selectedProductIndexes.includes(index))
+    setProductList(updatedProducts)
+    setSelectedItems([])
+    setShowDeleteConfirm(false)
+  }
+  
+  const handleDeleteSingle = (productIndex: number) => {
+    setItemToDelete(productIndex)
+    setShowDeleteConfirm(true)
+  }
+
+  const confirmDeleteSingle = () => {
+    if (itemToDelete !== null) {
+      const actualIndex = startIndex + itemToDelete
+      const updatedProducts = productList.filter((_, index) => index !== actualIndex)
+      setProductList(updatedProducts)
+      setItemToDelete(null)
+      setShowDeleteConfirm(false)
+    }
+  }
+  
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page)
     }
   }
 
@@ -144,44 +246,99 @@ const Products = () => {
         {/* Card */}
         <div className='bg-white rounded-2xl shadow-sm p-5'>
           {/* Top Actions */}
-          <div className='flex items-center justify-between mb-4'>
-           
+          <div className='flex flex-col md:flex-row items-center justify-between mb-4'>
+            <div className="flex flex-col md:flex-row items-center gap-2">
+              <div className="relative w-[280px]">
+                <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Search products in stocks..."
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                  className="pl-10 w-full pr-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                />
+              </div>
 
-              <div className="flex flex-col md:flex-row  items-center gap-2">
-          <div className="relative w-[280px]">
-            <Search className="absolute left-3 top-2.5 w-8 h-4 text-gray-400" />
-            <input
-              type="text"
-              placeholder="Search products in stocks..."
-              className="pl-12 w-full pr-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500"
-            />
-          </div>
+              <div className="relative">
+                <button
+                  onClick={() => setFilterOpen((p) => !p)}
+                  className="flex items-center gap-1 border rounded-lg px-3 py-2 text-sm"
+                >
+                  <SlidersHorizontal className="w-4 h-4" />
+                  Filter
+                </button>
 
-          <button className="flex items-center gap-1 border rounded-lg px-3 py-2 text-sm">
-            <SlidersHorizontal className="w-4 h-4" />
-            Filter
-          </button>
+                {filterOpen && (
+                  <div className="absolute left-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
+                    {["All", "In-Stock", "Re-Order", "Disabled"].map(
+                      (status) => (
+                        <button
+                          key={status}
+                          onClick={() => {
+                            setStatusFilter(status);
+                            setCurrentPage(1);
+                            setFilterOpen(false);
+                          }}
+                          className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                            statusFilter === status
+                              ? "bg-gray-100 font-medium"
+                              : ""
+                          }`}
+                        >
+                          {status}
+                        </button>
+                      )
+                    )}
+                  </div>
+                )}
+              </div>
 
-          <div className="flex gap-1">
-            <button className="border rounded-lg p-2">
-              <ChevronLeft size={16} />
-            </button>
-            <button className="border rounded-lg p-2">
-              <ChevronRight size={16} />
-            </button>
-          </div>
-        </div>
+              <div className="flex items-center gap-2">
+                <button
+                  onClick={() => handlePageChange(currentPage - 1)}
+                  disabled={currentPage === 1}
+                  className="border rounded-lg p-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+                >
+                  <ChevronLeft size={16} />
+                </button>
 
-             <button  onClick={() => navigate("/add-product")} className='bg-[#546CFC] text-white text-[18px] font-semibold px-5 py-2 rounded-lg'>
+                
+
+                <button
+                  onClick={() => handlePageChange(currentPage + 1)}
+                  disabled={currentPage === totalPages || totalPages === 0}
+                  className="border rounded-lg p-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+                >
+                  <ChevronRight size={16} />
+                </button>
+              </div>
+
+              {selectedItems.length > 0 && (
+                <button 
+                  onClick={() => setShowDeleteConfirm(true)}
+                  className="flex items-center gap-1 bg-red-500 text-white rounded-lg px-3 py-2 text-sm hover:bg-red-600"
+                >
+                  <Trash2 className="w-4 h-4" />
+                  Delete ({selectedItems.length})
+                </button>
+              )}
+            </div>
+
+
+            <div>
+ <button onClick={() => navigate("/add-product")} className='bg-[#546CFC] mt-3 md:mt-0 text-white text-[18px] font-semibold px-5 py-2 rounded-lg'>
               Add Products
             </button>
+           </div>
+
+
           </div>
 
-          {/* Table */}
-          <div className='overflow-x-auto'>
+          {/* Table (Desktop) */}
+          <div className='hidden md:block overflow-x-auto rounded-xl'>
             <table className='w-full text-sm'>
               <thead>
-                <tr className='bg-[#E1FFEC] h-[52px]'>
+                <tr className='bg-green-grad text-white h-[52px]'>
                   <th className='px-4 text-left w-[60px]'>
                     <input
                       type='checkbox'
@@ -192,11 +349,10 @@ const Products = () => {
                       onChange={handleSelectAll}
                     />
                   </th>
-                  <th className='text-left'>Products</th>
+                  <th className='text-left '>Products</th>
                   <th>Stock ↑</th>
                   <th>Sold ↑↓</th>
-                  <th className='text-left pl-10'>Brand</th>{' '}
-                  {/* Added padding to shift right */}
+                  <th className='text-left pl-10'>Brand</th>
                   <th>Price ↑↓</th>
                   <th>Status</th>
                   <th>Action</th>
@@ -209,7 +365,7 @@ const Products = () => {
                     key={index}
                     className='border-b last:border-none hover:bg-gray-50'
                   >
-                    <td className='px-4 py-3'>
+                    <td className='px-4 py-6'>
                       <input
                         type='checkbox'
                         checked={selectedItems.includes(index)}
@@ -232,12 +388,8 @@ const Products = () => {
                     <td className='text-center'>{item.sold}</td>
 
                     <td className='py-3 pl-10'>
-                      {' '}
-                      {/* Added padding to shift right */}
                       <div className='flex items-center gap-3'>
                         <div className='bg-gray-200 p-1.5 rounded-md'>
-                          {' '}
-                          {/* Added grey background */}
                           <img
                             src={item.brandImg}
                             alt={item.brand}
@@ -260,8 +412,9 @@ const Products = () => {
                       </span>
                     </td>
 
-                    <td className='flex items-center justify-center gap-3 py-3'>
-                      <img  onClick={() => navigate("/edit-product")}
+                    <td className='flex items-center justify-center gap-3 py-6'>
+                      <img  
+                        onClick={() => navigate("/edit-product")}
                         src={
                           item.status === 'Disabled'
                             ? '/icons/Edit-disabled.png'
@@ -271,9 +424,10 @@ const Products = () => {
                         className='w-4 h-4 cursor-pointer'
                       />
                       <img
+                        onClick={() => handleDeleteSingle(index)}
                         src='/icons/Delete.png'
                         alt='delete'
-                        className='w-4 h-4 cursor-pointer'
+                        className='w-4 h-4 cursor-pointer hover:opacity-70'
                       />
                     </td>
                   </tr>
@@ -281,371 +435,98 @@ const Products = () => {
               </tbody>
             </table>
           </div>
-        </div>
-      </div>
 
-      {/* CSS Media Queries for Mobile Responsiveness */}
-      <style jsx>{`
-        @media (max-width: 768px) {
-          /* Increase width of the main card on mobile */
-          .bg-white.rounded-2xl.shadow-sm.p-5 {
-            width: calc(100% + 24px);
-            margin-left: -12px;
-            margin-right: -12px;
-          }
-          .font-poppins {
-            padding: 0 16px;
-          }
-
-          /* Header Alignment */
-          .mb-6 {
-            margin-left: -12px;
-            margin-top: -6px;
-          }
-
-          .bg-white {
-            padding: 16px !important;
-          }
-
-          /* Top Actions Styling */
-          .flex.items-center.justify-between.mb-4 {
-            flex-direction: column;
-            gap: 16px;
-            align-items: stretch;
-          }
-
-          .bg-\\[#546CFC\\] {
-            width: 100%;
-            font-size: 16px !important;
-            padding: 12px 16px !important;
-          }
-
-          .flex.items-center.gap-2 {
-            width: 100%;
-            justify-content: space-between;
-          }
-
-          .border.px-3 {
-            flex: 1;
-            text-align: center;
-          }
-
-          /* Hide Table on Mobile */
-          table {
-            display: none;
-          }
-
-          /* Mobile Cards */
-          .mobile-products-container {
-            display: block;
-            margin-top: 16px;
-          }
-        }
-
-        @media (min-width: 769px) {
-          /* Hide Mobile Cards on Desktop */
-          .mobile-products-container {
-            display: none;
-          }
-
-          /* Show Table on Desktop */
-          table {
-            display: table;
-          }
-        }
-      `}</style>
-
-      {/* Mobile Products Cards - Hidden on Desktop */}
-      <div className='mobile-products-container'>
-        {displayProducts.map((item, index) => (
-          <div
-            key={index}
-            className='mobile-product-card'
-            style={{
-              backgroundColor: 'white',
-              border: '1px solid #e5e7eb',
-              borderRadius: '12px',
-              padding: '16px',
-              marginBottom: '16px',
-              boxShadow: '0 1px 3px 0 rgba(0, 0, 0, 0.1)'
-            }}
-          >
-            {/* Top Row: Checkbox, Product Info, and Actions */}
-            <div
-              style={{
-                display: 'flex',
-                alignItems: 'flex-start',
-                justifyContent: 'space-between',
-                marginBottom: '12px'
-              }}
-            >
+          {/* Mobile Cards (Mobile) */}
+          <div className="md:hidden space-y-4">
+            {displayProducts.map((item, index) => (
               <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px',
-                  flex: 1
-                }}
+                key={index}
+                className="bg-white border rounded-xl p-4 shadow-sm text-sm"
               >
-                <input
-                  type='checkbox'
-                  checked={selectedItems.includes(index)}
-                  onChange={() => handleSelectItem(index)}
-                  style={{
-                    marginTop: '4px'
-                  }}
-                />
-                <div
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    gap: '12px'
-                  }}
-                >
-                  <img
-                    src={item.img}
-                    alt={item.name}
-                    style={{
-                      width: '40px',
-                      height: '40px',
-                      borderRadius: '6px'
-                    }}
-                  />
-                  <div>
-                    <h3
-                      style={{
-                        color: '#3B5BDB',
-                        fontWeight: '500',
-                        fontSize: '14px',
-                        marginBottom: '4px'
-                      }}
-                    >
-                      {item.name}
-                    </h3>
-                    <div
-                      style={{
-                        display: 'flex',
-                        alignItems: 'center',
-                        gap: '8px'
-                      }}
-                    >
-                      <img
-                        src={item.brandImg}
-                        alt={item.brand}
-                        style={{
-                          width: '20px',
-                          height: '20px'
-                        }}
-                      />
-                      <span
-                        style={{
-                          fontSize: '12px',
-                          color: '#6b7280'
-                        }}
-                      >
-                        {item.brand}
-                      </span>
+                <div className="flex justify-between items-start mb-3">
+                  <div className="flex items-center gap-3">
+                    <img
+                      src={item.img}
+                      alt={item.name}
+                      className="w-10 h-10 rounded-lg object-cover"
+                    />
+                    <div>
+                      <h3 className="font-semibold text-gray-800">{item.name}</h3>
+                      <div className="flex items-center gap-1.5 mt-0.5">
+                        <img src={item.brandImg} alt={item.brand} className="w-4 h-4" />
+                        <span className="text-xs text-gray-500">{item.brand}</span>
+                      </div>
                     </div>
                   </div>
-                </div>
-              </div>
-
-              <div
-                style={{
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '12px'
-                }}
-              >
-                <img
-                  src={
-                    item.status === 'Disabled'
-                      ? '/icons/Edit-disabled.png'
-                      : '/icons/Edit.png'
-                  }
-                  alt='edit'
-                  style={{
-                    width: '20px',
-                    height: '20px',
-                    cursor: 'pointer'
-                  }}
-                />
-                <img
-                  src='/icons/Delete.png'
-                  alt='delete'
-                  style={{
-                    width: '20px',
-                    height: '20px',
-                    cursor: 'pointer'
-                  }}
-                />
-              </div>
-            </div>
-
-            {/* Bottom Row: Stats in Grid */}
-            <div
-              style={{
-                display: 'grid',
-                gridTemplateColumns: '1fr 1fr',
-                gap: '16px',
-                borderTop: '1px solid #e5e7eb',
-                paddingTop: '12px'
-              }}
-            >
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px'
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between'
-                  }}
-                >
                   <span
-                    style={{
-                      fontSize: '12px',
-                      color: '#6b7280'
-                    }}
-                  >
-                    Stock
-                  </span>
-                  <span
-                    style={{
-                      fontWeight: '500'
-                    }}
-                  >
-                    {item.stock}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: '12px',
-                      color: '#6b7280'
-                    }}
-                  >
-                    Sold
-                  </span>
-                  <span
-                    style={{
-                      fontWeight: '500'
-                    }}
-                  >
-                    {item.sold}
-                  </span>
-                </div>
-              </div>
-
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px'
-                }}
-              >
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between'
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: '12px',
-                      color: '#6b7280'
-                    }}
-                  >
-                    Price
-                  </span>
-                  <span
-                    style={{
-                      fontWeight: '500'
-                    }}
-                  >
-                    {item.price}
-                  </span>
-                </div>
-                <div
-                  style={{
-                    display: 'flex',
-                    justifyContent: 'space-between',
-                    alignItems: 'center'
-                  }}
-                >
-                  <span
-                    style={{
-                      fontSize: '12px',
-                      color: '#6b7280'
-                    }}
-                  >
-                    Status
-                  </span>
-                  <span
-                    style={{
-                      padding: '4px 12px',
-                      borderRadius: '6px',
-                      fontSize: '11px',
-                      fontWeight: '500',
-                      backgroundColor: statusStyles[item.status].split(' ')[0],
-                      color: statusStyles[item.status].split(' ')[1]
-                    }}
+                    className={`px-2 py-1 rounded text-[10px] font-medium ${
+                      statusStyles[item.status]
+                    }`}
                   >
                     {item.status}
                   </span>
                 </div>
+
+                <div className="grid grid-cols-3 gap-2 py-3 border-y border-gray-50 my-3">
+                  <div>
+                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Stock</p>
+                    <p className="font-medium text-gray-700">{item.stock}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Sold</p>
+                    <p className="font-medium text-gray-700">{item.sold}</p>
+                  </div>
+                  <div>
+                    <p className="text-[10px] text-gray-400 uppercase tracking-wider mb-0.5">Price</p>
+                    <p className="font-medium text-[#546CFC]">{item.price}</p>
+                  </div>
+                </div>
+
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => navigate("/edit-product")}
+                    className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-gray-50 text-gray-600 font-medium hover:bg-gray-100 transition-colors"
+                  >
+                    <img src="/icons/Edit.png" alt="edit" className="w-3.5 h-3.5" />
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDeleteSingle(index)}
+                    className="flex-1 flex items-center justify-center gap-2 py-2 rounded-lg bg-red-50 text-red-500 font-medium hover:bg-red-100 transition-colors"
+                  >
+                    <Trash2 className="w-3.5 h-3.5" />
+                    Delete
+                  </button>
+                </div>
               </div>
+            ))}
+          </div>
+          
+          {/* Pagination Status */}
+          <div className="flex items-center justify-between mt-6 pt-4 border-t">
+            <div className="text-sm text-gray-500">
+              Showing {filteredProducts.length > 0 ? startIndex + 1 : 0}-
+              {Math.min(startIndex + itemsPerPage, filteredProducts.length)} of{" "}
+              {filteredProducts.length} products
             </div>
           </div>
-        ))}
-
-        {/* Mobile Pagination */}
-        <div
-          style={{
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            gap: '8px',
-            marginTop: '24px'
-          }}
-        >
-          <button
-            style={{
-              border: '1px solid #d1d5db',
-              padding: '8px 12px',
-              borderRadius: '6px',
-              fontSize: '14px'
-            }}
-          >
-            ‹ Previous
-          </button>
-          <span
-            style={{
-              fontSize: '14px',
-              color: '#6b7280'
-            }}
-          >
-            Page 1 of 2
-          </span>
-          <button
-            style={{
-              border: '1px solid #d1d5db',
-              padding: '8px 12px',
-              borderRadius: '6px',
-              fontSize: '14px'
-            }}
-          >
-            Next ›
-          </button>
         </div>
+        
+        {/* Delete Confirmation Modal */}
+        <DeleteConfirmModal
+          open={showDeleteConfirm}
+          onClose={() => {
+            setShowDeleteConfirm(false);
+            setItemToDelete(null);
+          }}
+          onConfirm={itemToDelete !== null ? confirmDeleteSingle : handleDeleteSelected}
+          title={itemToDelete !== null ? "Delete Product" : "Delete Selected Products"}
+          description={
+            itemToDelete !== null
+              ? "Are you sure you want to delete this product? This action cannot be undone."
+              : `Are you sure you want to delete ${selectedItems.length} selected product(s)? This action cannot be undone.`
+          }
+        />
       </div>
     </DashboardLayout>
   )
