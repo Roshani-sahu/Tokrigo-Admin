@@ -7,6 +7,7 @@ import {
   ChevronRight,
 } from "lucide-react";
 
+
 /* ================= TYPES ================= */
 type Order = {
   id: string;
@@ -89,6 +90,7 @@ const OrdersTable: React.FC = () => {
 
   /* ================= FILTER + SEARCH ================= */
   const filteredOrders = useMemo(() => {
+
     return ordersData.filter((order) => {
       const matchesSearch = order.customer
         .toLowerCase()
@@ -109,13 +111,15 @@ const OrdersTable: React.FC = () => {
     return filteredOrders.slice(start, start + ITEMS_PER_PAGE);
   }, [filteredOrders, page]);
 
+
+
   return (
     <div className="bg-white rounded-xl p-3 md:p-4 w-full">
       {/* ================= HEADER ================= */}
       <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
         <div className="flex items-center gap-2">
           <div className="w-12 h-12 bg-gray-100 text-green-600 rounded-lg flex items-center justify-center">
-            <TrendingUp size={24} />
+            <TrendingUp size={28} />
           </div>
           <h2 className="text-[16px] md:text-[18px] font-semibold text-[#2D2D2D]">
             Complete Order Overview

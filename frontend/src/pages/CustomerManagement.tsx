@@ -1,6 +1,6 @@
-import React, { useState } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import DashboardLayout from "../layouts/DashboardLayout";
-import { Search, ChevronLeft, ChevronRight, Filter } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight, Filter, Users, BookUser, Ban, SquareCheckBig, SlidersHorizontal } from "lucide-react";
 
 
 
@@ -74,56 +74,45 @@ const customers: Customer[] = [
     ],
   },
   {
-    id: 3,
-    name: "Ankit Verma",
-    phone: "+91 9988776655",
-    wallet: "3100 coins",
-    orders: 28,
-    spend: "Rs.9,800",
+    id: 4,
+    name: "Suresh Raina",
+    phone: "+91 9988776644",
+    wallet: "2100 coins",
+    orders: 15,
+    spend: "Rs.5,800",
     status: "Active",
-    referrals: "11 Users",
-    joinedDate: "01-10-2025",
+    referrals: "8 Users",
+    joinedDate: "15-10-2025",
     orderHistory: [
-      { orderId: "#ORD-1401", date: "21-12-2025", amount: "Rs.350", status: "Delivered" },
-      { orderId: "#ORD-1402", date: "18-12-2025", amount: "Rs.900", status: "Delivered" },
+      { orderId: "#ORD-1501", date: "22-12-2025", amount: "Rs.300", status: "Delivered" },
     ],
   },
   {
-    id: 3,
-    name: "Ankit Verma",
-    phone: "+91 9988776655",
-    wallet: "3100 coins",
-    orders: 28,
-    spend: "Rs.9,800",
+    id: 5,
+    name: "MS Dhoni",
+    phone: "+91 7777777777",
+    wallet: "7777 coins",
+    orders: 77,
+    spend: "Rs.77,000",
     status: "Active",
-    referrals: "11 Users",
-    joinedDate: "01-10-2025",
+    referrals: "77 Users",
+    joinedDate: "07-07-2025",
     orderHistory: [
-      { orderId: "#ORD-1401", date: "21-12-2025", amount: "Rs.350", status: "Delivered" },
-      { orderId: "#ORD-1402", date: "18-12-2025", amount: "Rs.900", status: "Delivered" },
+      { orderId: "#ORD-0007", date: "07-12-2025", amount: "Rs.777", status: "Delivered" },
     ],
   },
   {
-    id: 3,
-    name: "Ankit Verma",
-    phone: "+91 9988776655",
-    wallet: "3100 coins",
-    orders: 28,
-    spend: "Rs.9,800",
+    id: 6,
+    name: "Virat Kohli",
+    phone: "+91 8888888888",
+    wallet: "1800 coins",
+    orders: 18,
+    spend: "Rs.18,000",
     status: "Active",
-    referrals: "11 Users",
-    joinedDate: "01-10-2025",
+    referrals: "18 Users",
+    joinedDate: "18-11-2025",
     orderHistory: [
-      { orderId: "#ORD-1401", date: "21-12-2025", amount: "Rs.350", status: "Delivered" },
-      { orderId: "#ORD-1402", date: "18-12-2025", amount: "Rs.900", status: "Delivered" },
-      { orderId: "#ORD-1402", date: "18-12-2025", amount: "Rs.900", status: "Delivered" },
-      { orderId: "#ORD-1402", date: "18-12-2025", amount: "Rs.900", status: "Delivered" },
-      { orderId: "#ORD-1402", date: "18-12-2025", amount: "Rs.900", status: "Delivered" },
-      { orderId: "#ORD-1402", date: "18-12-2025", amount: "Rs.900", status: "Delivered" },
-      { orderId: "#ORD-1402", date: "18-12-2025", amount: "Rs.900", status: "Delivered" },
-      { orderId: "#ORD-1402", date: "18-12-2025", amount: "Rs.900", status: "Delivered" },
-      { orderId: "#ORD-1402", date: "18-12-2025", amount: "Rs.900", status: "Delivered" },
-      { orderId: "#ORD-1402", date: "18-12-2025", amount: "Rs.900", status: "Delivered" },
+      { orderId: "#ORD-0018", date: "18-12-2025", amount: "Rs.1818", status: "Delivered" },
     ],
   },
 ];
@@ -212,18 +201,56 @@ const CustomerDetailsModal = ({
 
 /* ===================== MAIN PAGE ===================== */
 const CustomerManagement: React.FC = () => {
-const [customerList, setCustomerList] = useState<Customer[]>(customers);
-const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [customerList, setCustomerList] = useState<Customer[]>(customers);
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [filterOpen, setFilterOpen] = useState(false);
 
-const toggleStatus = (id: number) => {
-  setCustomerList((prev) =>
-    prev.map((c) =>
-      c.id === id
-        ? { ...c, status: c.status === "Active" ? "InActive" : "Active" }
-        : c
-    )
+  const itemsPerPage = 5;
+
+  // Filter and search customers
+  const filteredCustomers = useMemo(() => {
+    return customerList.filter((c) => {
+      const matchesSearch =
+        c.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        c.phone.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesStatus =
+        statusFilter === "All" || c.status === statusFilter;
+      return matchesSearch && matchesStatus;
+    });
+  }, [customerList, searchTerm, statusFilter]);
+
+  // Pagination
+  const totalPages = Math.ceil(filteredCustomers.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const displayCustomers = filteredCustomers.slice(
+    startIndex,
+    startIndex + itemsPerPage
   );
-};
+
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(1);
+    }
+  }, [currentPage, totalPages]);
+
+  const toggleStatus = (id: number) => {
+    setCustomerList((prev) =>
+      prev.map((c) =>
+        c.id === id
+          ? { ...c, status: c.status === "Active" ? "InActive" : "Active" }
+          : c
+      )
+    );
+  };
+
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
 
   return (
     <DashboardLayout>
@@ -246,9 +273,14 @@ const toggleStatus = (id: number) => {
                 md:flex-row md:items-center md:justify-between">
 
   {/* Title */}
-  <h2 className="text-base sm:text-lg font-semibold text-gray-800">
-    All Customers
-  </h2>
+   <div className="flex items-center gap-2">
+          <div className="w-12 h-12 bg-gray-100 text-green-600 rounded-lg flex items-center justify-center">
+            <Users size={28} />
+          </div>
+          <h2 className="text-[16px] md:text-[18px] font-semibold text-[#2D2D2D]">
+            All Customers of tokrigo
+          </h2>
+        </div>
 
   {/* Controls */}
   <div className="flex flex-wrap items-center gap-2 w-full md:w-auto">
@@ -259,21 +291,57 @@ const toggleStatus = (id: number) => {
       <input
         type="text"
         placeholder="Search by number..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
         className="w-full pl-9 pr-3 py-2 text-sm border rounded-lg focus:outline-none"
       />
     </div>
 
     {/* Filter */}
-    <button className="flex items-center gap-1 px-3 py-2 border rounded-lg text-sm whitespace-nowrap">
-      <Filter size={14} /> Filter
-    </button>
+    <div className="relative">
+      <button
+        onClick={() => setFilterOpen((p) => !p)}
+        className="flex items-center gap-1 border rounded-lg px-3 py-2 text-sm"
+      >
+        <SlidersHorizontal className="w-4 h-4" />
+        Filter
+      </button>
+
+      {filterOpen && (
+        <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
+          {["All", "Active", "InActive"].map((status) => (
+            <button
+              key={status}
+              onClick={() => {
+                setStatusFilter(status);
+                setCurrentPage(1);
+                setFilterOpen(false);
+              }}
+              className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                statusFilter === status ? "bg-gray-100 font-medium" : ""
+              }`}
+            >
+              {status}
+            </button>
+          ))}
+        </div>
+      )}
+    </div>
 
     {/* Pagination */}
     <div className="flex gap-2">
-      <button className="border rounded-lg p-2">
+      <button
+        onClick={() => handlePageChange(currentPage - 1)}
+        disabled={currentPage === 1}
+        className="border rounded-lg p-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+      >
         <ChevronLeft size={16} />
       </button>
-      <button className="border rounded-lg p-2">
+      <button
+        onClick={() => handlePageChange(currentPage + 1)}
+        disabled={currentPage === totalPages || totalPages === 0}
+        className="border rounded-lg p-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+      >
         <ChevronRight size={16} />
       </button>
     </div>
@@ -285,28 +353,28 @@ const toggleStatus = (id: number) => {
           <div className="hidden md:block rounded-xl overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
-                <tr className="bg-green-100">
-                  <th className="p-3 text-center">Customer</th>
-                  <th className="p-3 text-center">Phone</th>
-                  <th className="p-3 text-center">Wallet</th>
-                  <th className="p-3 text-center">Orders</th>
-                  <th className="p-3 text-center">Spend</th>
-                  <th className="p-3 text-center">Status</th>
-                  <th className="p-3 text-center">Referrals</th>
-                  <th className="p-3 text-center">Action</th>
+                <tr className="bg-green-grad text-white">
+                  <th className="p-3 py-5 text-center">Customer</th>
+                  <th className="p-3 py-5 text-center">Phone</th>
+                  <th className="p-3 py-5 text-center">Wallet</th>
+                  <th className="p-3 py-5 text-center">Orders</th>
+                  <th className="p-3 py-5 text-center">Spend</th>
+                  <th className="p-3 py-5 text-center">Status</th>
+                  <th className="p-3 py-5 text-center">Referrals</th>
+                  <th className="p-3 py-5 text-center">Action</th>
                 </tr>
               </thead>
 
               <tbody>
-                {customerList.map((c) => (
+                {displayCustomers.map((c) => (
 
                   <tr key={c.id} className="border-b hover:bg-gray-50">
-                    <td className="p-3 text-center">{c.name}</td>
-                    <td className="p-3 text-center">{c.phone}</td>
-                    <td className="p-3 text-center">{c.wallet}</td>
-                    <td className="p-3 text-center">{c.orders}</td>
-                    <td className="p-3 text-center">{c.spend}</td>
-                    <td className="p-3 text-center">
+                    <td className="p-3 py-6 text-center">{c.name}</td>
+                    <td className="p-3 py-6 text-center">{c.phone}</td>
+                    <td className="p-3 py-6 text-center">{c.wallet}</td>
+                    <td className="p-3 py-6 text-center">{c.orders}</td>
+                    <td className="p-3 py-6 text-center">{c.spend}</td>
+                    <td className="p-3 py-6 text-center">
                       <span
                         className={`px-3 py-1 rounded-full text-xs ${
                           c.status === "Active"
@@ -324,21 +392,19 @@ const toggleStatus = (id: number) => {
     {/* DETAILS */}
     <button
       onClick={() => setSelectedCustomer(c)}
-      className="w-8 h-8 rounded bg-yellow-100 flex items-center justify-center"
+      className="w-8 h-8 rounded flex items-center justify-center"
       title="View Details"
     >
-      📄
+      <BookUser className="text-blue-500" />
     </button>
 
     {/* ACTIVE / INACTIVE */}
     <button
       onClick={() => toggleStatus(c.id)}
-      className={`w-8 h-8 rounded flex items-center justify-center ${
-        c.status === "Active" ? "bg-red-100" : "bg-green-100"
-      }`}
+      className={`w-8 h-8 rounded flex items-center justify-center `}
       title={c.status === "Active" ? "Deactivate" : "Activate"}
     >
-      {c.status === "Active" ? "🚫" : "✅"}
+      {c.status === "Active" ? <Ban className="text-red-500" /> : <SquareCheckBig className="text-green-500" />}
     </button>
 
   </div>
@@ -351,7 +417,7 @@ const toggleStatus = (id: number) => {
           </div>
 {/* ================= MOBILE CARDS ================= */}
 <div className="md:hidden space-y-4">
-  {customerList.map((c) => (
+  {displayCustomers.map((c) => (
     <div
       key={c.id}
       className="bg-white border rounded-xl p-4 shadow-sm text-sm"
@@ -399,6 +465,14 @@ const toggleStatus = (id: number) => {
   ))}
 </div>
 
+          {/* Pagination Status */}
+          <div className="flex items-center justify-between mt-6 pt-4 ">
+            <div className="text-sm text-gray-500">
+              Showing {filteredCustomers.length > 0 ? startIndex + 1 : 0}-
+              {Math.min(startIndex + itemsPerPage, filteredCustomers.length)} of{" "}
+              {filteredCustomers.length} customers
+            </div>
+          </div>
         </div>
       </div>
 

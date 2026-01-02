@@ -123,7 +123,7 @@ const [isFilterOpen, setIsFilterOpen] = useState(false);
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4 mb-6">
         <h2 className="text-lg font-semibold flex items-center gap-3">
           <div className="w-12 h-12 bg-gray-100 text-green-600 rounded-lg flex items-center justify-center">
-            <TrendingUp size={24} />
+            <TrendingUp size={28} />
           </div>
           Current Stock Overview
         </h2>
