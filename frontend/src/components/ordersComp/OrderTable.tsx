@@ -1,207 +1,342 @@
-import React from 'react'
-import { TrendingUp , Search, SlidersHorizontal, ChevronLeft, ChevronRight} from "lucide-react";
+import React, { useMemo, useState } from "react";
+import {
+  TrendingUp,
+  Search,
+  SlidersHorizontal,
+  ChevronLeft,
+  ChevronRight,
+} from "lucide-react";
 
+/* ================= TYPES ================= */
+type Order = {
+  id: string;
+  customer: string;
+  items: number;
+  amount: number;
+  payment: "UPI" | "COD";
+  status: "Shipped" | "Processing" | "Returned" | "Cancelled";
+  date: string;
+};
 
+/* ================= CONSTANTS ================= */
+const ITEMS_PER_PAGE = 4;
+
+/* ================= DATA ================= */
+const ordersData: Order[] = [
+  {
+    id: "#C5B94",
+    customer: "Amisha Dubey",
+    items: 8,
+    amount: 6000,
+    payment: "UPI",
+    status: "Shipped",
+    date: "02-08-25",
+  },
+  {
+    id: "#C5B95",
+    customer: "Abhishek Dubey",
+    items: 3,
+    amount: 2100,
+    payment: "COD",
+    status: "Processing",
+    date: "03-08-25",
+  },
+  {
+    id: "#C5B96",
+    customer: "Umashree Joshi",
+    items: 5,
+    amount: 4200,
+    payment: "UPI",
+    status: "Returned",
+    date: "04-08-25",
+  },
+  {
+    id: "#C5B97",
+    customer: "Ajeet Singh Bhadoriya",
+    items: 2,
+    amount: 1800,
+    payment: "COD",
+    status: "Cancelled",
+    date: "04-08-25",
+  },
+  {
+    id: "#C5B98",
+    customer: "Pooja Jain",
+    items: 6,
+    amount: 5200,
+    payment: "UPI",
+    status: "Shipped",
+    date: "05-08-25",
+  },
+  {
+    id: "#C5B99",
+    customer: "Yukti Jain",
+    items: 4,
+    amount: 3600,
+    payment: "COD",
+    status: "Processing",
+    date: "06-08-25",
+  },
+];
+
+/* ================= COMPONENT ================= */
 const OrdersTable: React.FC = () => {
-  const rows = [
-    { name: 'Amisha Dubey', payment: 'UPI', status: 'Shipped' },
-    { name: 'Abhishek Dubey', payment: 'COD', status: 'Processing' },
-    { name: 'Umashree Joshi', payment: 'UPI', status: 'Returned' },
-    { name: 'Ajeet Singh Bhadoriya', payment: 'COD', status: 'Cancelled' },
-    { name: 'Pooja Jain', payment: 'UPI', status: 'Shipped' },
-    { name: 'Yukti Jain', payment: 'COD', status: 'Processing' },
-    { name: 'Aabha Dubey', payment: 'UPI', status: 'Returned' },
-    { name: 'Ajay Dubey', payment: 'COD', status: 'Shipped' },
-    { name: 'G.R. Dubey', payment: 'UPI', status: 'Cancelled' },
-    { name: 'R.G. Dubey', payment: 'COD', status: 'Shipped' }
-  ]
+  const [search, setSearch] = useState("");
+  const [statusFilter, setStatusFilter] =
+    useState<"All" | Order["status"]>("All");
+  const [page, setPage] = useState(1);
+  const [filterOpen, setFilterOpen] = useState(false);
+
+  /* ================= FILTER + SEARCH ================= */
+  const filteredOrders = useMemo(() => {
+    return ordersData.filter((order) => {
+      const matchesSearch = order.customer
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      const matchesStatus =
+        statusFilter === "All" || order.status === statusFilter;
+
+      return matchesSearch && matchesStatus;
+    });
+  }, [search, statusFilter]);
+
+  /* ================= PAGINATION ================= */
+  const totalPages = Math.ceil(filteredOrders.length / ITEMS_PER_PAGE);
+
+  const paginatedOrders = useMemo(() => {
+    const start = (page - 1) * ITEMS_PER_PAGE;
+    return filteredOrders.slice(start, start + ITEMS_PER_PAGE);
+  }, [filteredOrders, page]);
 
   return (
-    <div className='bg-white rounded-xl p-3 md:p-4 w-full'>
-      {/* Header */}
-      <div className='flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4'>
-        <div className='flex items-center gap-2'>
+    <div className="bg-white rounded-xl p-3 md:p-4 w-full">
+      {/* ================= HEADER ================= */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between mb-4 gap-4">
+        <div className="flex items-center gap-2">
           <div className="w-12 h-12 bg-gray-100 text-green-600 rounded-lg flex items-center justify-center">
-  <TrendingUp size={24} />
-</div>
-          <h2 className='text-[16px] md:text-[18px] font-semibold text-[#2D2D2D] whitespace-nowrap'>
+            <TrendingUp size={24} />
+          </div>
+          <h2 className="text-[16px] md:text-[18px] font-semibold text-[#2D2D2D]">
             Complete Order Overview
           </h2>
         </div>
-       <div className="flex flex-col md:flex-row items-center gap-2">
+
+        <div className="flex flex-col md:flex-row items-center gap-2">
+          {/* Search */}
           <div className="relative w-[280px]">
-                      <Search className="absolute left-3 top-2.5 w-8 h-4 text-gray-400" />
-                      <input
-                        type="text"
-                        placeholder="Search products in stocks..."
-                        className="pl-12 w-full pr-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500"
-                      />
-                    </div>
+            <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+            <input
+              value={search}
+              onChange={(e) => {
+                setSearch(e.target.value);
+                setPage(1);
+              }}
+              placeholder="Search customer..."
+              className="pl-10 w-full pr-3 py-2 text-sm border rounded-lg focus:outline-none focus:ring-1 focus:ring-indigo-500"
+            />
+          </div>
 
-          <button className="flex items-center gap-1 border rounded-lg px-3 py-2 text-sm">
-            <SlidersHorizontal className="w-4 h-4" />
-            Filter
-          </button>
+          {/* Filter */}
+          <div className="relative">
+            <button
+              onClick={() => setFilterOpen((p) => !p)}
+              className="flex items-center gap-1 border rounded-lg px-3 py-2 text-sm"
+            >
+              <SlidersHorizontal className="w-4 h-4" />
+              Filter
+            </button>
 
+            {filterOpen && (
+              <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
+                {["All", "Shipped", "Processing", "Returned", "Cancelled"].map(
+                  (status) => (
+                    <button
+                      key={status}
+                      onClick={() => {
+                        setStatusFilter(status as any);
+                        setPage(1);
+                        setFilterOpen(false);
+                      }}
+                      className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                        statusFilter === status
+                          ? "bg-gray-100 font-medium"
+                          : ""
+                      }`}
+                    >
+                      {status}
+                    </button>
+                  )
+                )}
+              </div>
+            )}
+          </div>
+
+          {/* Pagination */}
           <div className="flex gap-1">
-            <button className="border rounded-lg p-2">
+            <button
+              disabled={page === 1}
+              onClick={() => setPage((p) => p - 1)}
+              className="border rounded-lg p-2 disabled:opacity-40"
+            >
               <ChevronLeft size={16} />
             </button>
-            <button className="border rounded-lg p-2">
+            <button
+              disabled={page === totalPages}
+              onClick={() => setPage((p) => p + 1)}
+              className="border rounded-lg p-2 disabled:opacity-40"
+            >
               <ChevronRight size={16} />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Mobile Cards View - Visible on small screens */}
-      <div className='block md:hidden space-y-3'>
-        {rows.map((row, index) => (
-          <div key={index} className='border rounded-lg p-3 space-y-2'>
-            <div className='flex justify-between items-start'>
-              <div>
-                <div className='text-[#47449F] font-medium'>[#c5b94]</div>
-                <div className='font-medium text-[#2D2D2D]'>{row.name}</div>
-              </div>
-              <div className='text-right'>
-                <div className='text-[14px]'>8 items</div>
-                <div className='font-medium'>Rs.6000</div>
-              </div>
-            </div>
+      {/* ================= DESKTOP TABLE ================= */}
+      <div className="hidden md:block overflow-x-auto rounded-lg">
+        <table className="w-full border-collapse min-w-[1024px] text-[15px]">
+          <thead className="bg-green-grad text-white">
+            <tr>
+              <th className="px-4 py-5 text-center">Order ID</th>
+              <th className="px-4 py-5 text-center">Customer</th>
+              <th className="px-4 py-5 text-center">Items</th>
+              <th className="px-4 py-5 text-center">Amount</th>
+              <th className="px-4 py-5 text-center">Payment Mode</th>
+              <th className="px-4 py-5 text-center">Status</th>
+              <th className="px-4 py-5 text-center">Date</th>
+              <th className="px-4 py-5 text-center">Action</th>
+            </tr>
+          </thead>
 
-            <div className='flex items-center justify-between pt-2 border-t'>
-              <div className='flex flex-col gap-1'>
-                <div className='text-sm text-gray-600'>Payment</div>
-                {row.payment === 'UPI' ? (
-                  <span className='px-3 py-1 rounded-md text-[12px] bg-[#FFEFCE] text-[#FF6600]'>
-                    UPI
+          <tbody>
+            {paginatedOrders.map((order) => (
+              <tr key={order.id} className="border-b hover:bg-gray-50">
+                <td className="px-4 py-4 text-center text-[#47449F]">
+                  {order.id}
+                </td>
+                <td className="px-4 py-4 text-center">{order.customer}</td>
+                <td className="px-4 py-4 text-center">{order.items}</td>
+                <td className="px-4 py-4 text-center">
+                  Rs.{order.amount.toLocaleString()}
+                </td>
+                <td className="px-4 py-4 text-center">
+                  <span
+                    className={`px-2 py-1 rounded-md text-sm ${
+                      order.payment === "UPI"
+                        ? "bg-[#FFEFCE] text-[#FF6600]"
+                        : "bg-[#ECFAFF] text-[#007F70]"
+                    }`}
+                  >
+                    {order.payment}
                   </span>
-                ) : (
-                  <span className='px-3 py-1 rounded-md text-[12px] bg-[#ECFAFF] text-[#007F70]'>
-                    COD
+                </td>
+                <td className="px-4 py-4 text-center">
+                  <span
+                    className={`px-3 py-1 rounded-md text-sm ${
+                      order.status === "Shipped"
+                        ? "bg-green-100 text-green-700"
+                        : order.status === "Processing"
+                        ? "bg-yellow-100 text-yellow-700"
+                        : order.status === "Returned"
+                        ? "bg-red-100 text-red-700"
+                        : "bg-gray-100 text-gray-700"
+                    }`}
+                  >
+                    {order.status}
                   </span>
-                )}
-              </div>
-
-              <div className='flex flex-col gap-1 items-end'>
-                <div className='text-sm text-gray-600'>Status</div>
-                {row.status === 'Shipped' && (
-                  <span className='px-3 py-1 rounded-md text-[12px] bg-[#E8FFE8] text-[#16A34A]'>
-                    Shipped
-                  </span>
-                )}
-                {row.status === 'Processing' && (
-                  <span className='px-3 py-1 rounded-md text-[12px] bg-[#FFF9DD78] text-[#FDA900]'>
-                    Processing
-                  </span>
-                )}
-                {row.status === 'Returned' && (
-                  <span className='px-3 py-1 rounded-md text-[12px] bg-[#F8DDFF78] text-[#9634AD]'>
-                    Returned
-                  </span>
-                )}
-                {row.status === 'Cancelled' && (
-                  <span className='px-3 py-1 rounded-md text-[12px] bg-[#FFE1E1] text-[#FF4343]'>
-                    Cancelled
-                  </span>
-                )}
-              </div>
-            </div>
-
-            <div className='flex items-center justify-between pt-2 border-t'>
-              <div className='text-sm text-gray-600'>
-                Date: <span className='text-[#2D2D2D]'>02-08-25</span>
-              </div>
-              <button className='border border-[#0033FF] text-[#0033FF] rounded-md px-3 py-1 text-[12px]'>
-                See Receipt
-              </button>
-            </div>
-          </div>
-        ))}
+                </td>
+                <td className="px-4 py-4 text-center">{order.date}</td>
+                <td className="px-4 py-4 text-center">
+                  <button className="border border-[#0033FF] text-[#0033FF] rounded-md px-3 py-1 text-sm hover:bg-[#0033FF] hover:text-white transition">
+                    See Receipt
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
 
-      {/* Table View - Visible on medium and larger screens */}
-      <div className='hidden md:block overflow-hidden  rounded-lg'>
-        <div className='overflow-x-auto'>
-          <table className='w-full border-collapse text-[16px] text-[#2D2D2D] min-w-[1024px]'>
-            <thead className='bg-green-grad'>
-              <tr className='text-white'>
-                <th className='text-center px-4 py-5'>Order IDs</th>
-                <th className='text-center px-4 py-5'>Customer</th>
-                <th className='text-center px-4 py-5'>Items</th>
-                <th className='text-center px-4 py-5'>Amount</th>
-                <th className='text-center px-4 py-5'>Payment Mode</th>
-                <th className='text-center px-4 py-5'>Status</th>
-                <th className='text-center px-4 py-5'>Date</th>
-                <th className='text-center px-4 py-5'>Action</th>
-              </tr>
-            </thead>
+{/* ================= MOBILE TABLE ================= */}
+<div className="block md:hidden space-y-3">
+  {paginatedOrders.map((order) => (
+    <div
+      key={order.id}
+      className="border rounded-xl p-4 shadow-sm space-y-3"
+    >
+      {/* Top Row */}
+      <div className="flex justify-between items-start">
+        <div>
+          <p className="text-[#47449F] font-medium">{order.id}</p>
+          <p className="font-semibold text-[#2D2D2D]">
+            {order.customer}
+          </p>
+        </div>
 
-            <tbody>
-              {rows.map((row, index) => (
-                <tr
-                  key={index}
-                  className='border-b last:border-b-0 hover:bg-gray-50'
-                >
-                  <td className='px-4 py-5 text-center text-[#47449F]'>
-                    [#c5b94]
-                  </td>
-                  <td className='px-4 py-3 text-center'>{row.name}</td>
-                  <td className='px-4 py-3 text-center'>8</td>
-                  <td className='px-4 py-3 text-center'>Rs.6000</td>
-
-                  {/* Payment */}
-                  <td className='px-4 py-3 text-center'>
-                    {row.payment === 'UPI' ? (
-                      <span className='px-2 py-1 rounded-md text-[14px] bg-[#FFEFCE] text-[#FF6600] inline-block'>
-                        UPI
-                      </span>
-                    ) : (
-                      <span className='px-2 py-1 rounded-md text-[14px] bg-[#ECFAFF] text-[#007F70] inline-block'>
-                        COD
-                      </span>
-                    )}
-                  </td>
-
-                  {/* Status */}
-                  <td className='px-4 py-3 text-center'>
-                    {row.status === 'Shipped' && (
-                      <span className='px-3 py-1 rounded-md text-[14px] bg-[#E8FFE8] text-[#16A34A] inline-block'>
-                        Shipped
-                      </span>
-                    )}
-                    {row.status === 'Processing' && (
-                      <span className='px-1 py-2 rounded-md text-[14px] bg-[#FFF9DD78] text-[#FDA900] inline-block'>
-                        Processing
-                      </span>
-                    )}
-                    {row.status === 'Returned' && (
-                      <span className='px-1 py-2 rounded-md text-[14px] bg-[#F8DDFF78] text-[#9634AD] inline-block'>
-                        Returned
-                      </span>
-                    )}
-                    {row.status === 'Cancelled' && (
-                      <span className='px-1 py-1 rounded-md text-[14px] bg-[#FFE1E1] text-[#FF4343] inline-block'>
-                        Cancelled
-                      </span>
-                    )}
-                  </td>
-
-                  <td className='px-4 py-3 text-center'>02-08-25</td>
-
-                  <td className='px-4 py-3 text-center'>
-                    <button className='border border-[#0033FF] text-[#0033FF] rounded-md px-3 py-1 text-[14px] hover:bg-[#0033FF] hover:text-white transition-colors'>
-                      See Receipt
-                    </button>
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
+        <div className="text-right">
+          <p className="text-sm">{order.items} items</p>
+          <p className="font-semibold">
+            Rs.{order.amount.toLocaleString()}
+          </p>
         </div>
       </div>
-    </div>
-  )
-}
 
-export default OrdersTable
+      {/* Payment + Status */}
+      <div className="flex justify-between border-t pt-3">
+        {/* Payment */}
+        <div>
+          <p className="text-sm text-gray-500 mb-1">Payment</p>
+          <span
+            className={`px-3 py-1 rounded-md text-xs ${
+              order.payment === "UPI"
+                ? "bg-[#FFEFCE] text-[#FF6600]"
+                : "bg-[#ECFAFF] text-[#007F70]"
+            }`}
+          >
+            {order.payment}
+          </span>
+        </div>
+
+        {/* Status */}
+        <div className="text-right">
+          <p className="text-sm text-gray-500 mb-1">Status</p>
+          <span
+            className={`px-3 py-1 rounded-md text-xs ${
+              order.status === "Shipped"
+                ? "bg-[#E8FFE8] text-[#16A34A]"
+                : order.status === "Processing"
+                ? "bg-[#FFF9DD78] text-[#FDA900]"
+                : order.status === "Returned"
+                ? "bg-[#F8DDFF78] text-[#9634AD]"
+                : "bg-[#FFE1E1] text-[#FF4343]"
+            }`}
+          >
+            {order.status}
+          </span>
+        </div>
+      </div>
+
+      {/* Date + Action */}
+      <div className="flex justify-between items-center border-t pt-3">
+        <p className="text-sm text-gray-600">
+          Date: <span className="text-[#2D2D2D]">{order.date}</span>
+        </p>
+
+        <button className="border border-[#0033FF] text-[#0033FF] rounded-md px-3 py-1 text-xs hover:bg-[#0033FF] hover:text-white transition">
+          See Receipt
+        </button>
+      </div>
+    </div>
+  ))}
+</div>
+
+
+      {/* ================= FOOTER ================= */}
+      <div className="text-center text-sm text-gray-500 mt-4">
+        Page {page} of {totalPages || 1}
+      </div>
+    </div>
+  );
+};
+
+export default OrdersTable;
