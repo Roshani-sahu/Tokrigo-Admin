@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Search, Filter, ChevronLeft, ChevronRight } from "lucide-react";
+import React, { useState, useMemo, useEffect } from "react";
+import { Search, ChevronLeft, ChevronRight, Scooter, SlidersHorizontal , BookUser, Ban, SquareCheckBig, } from "lucide-react";
 
 /* ================= TYPES ================= */
 type RiderStatus = "Active" | "On Delivery" | "Waiting" | "InActive";
@@ -56,6 +56,58 @@ const initialRiders: Rider[] = [
     bankAcc: "5468464654",
     bankName: "SBI",
     ifsc: "646YGSU6514CD",
+    aadhaarImg: "/aadhar.png",
+    panImg: "/aadhar.png",
+    passbookImg: "/aadhar.png",
+    profileImage: "/dashboard/avatar.png",
+  },
+  {
+    id: 2,
+    name: "Rohit Verma",
+    phone: "+91 9123456780",
+    deliveries: 12,
+    rating: 4.2,
+    status: "InActive",
+    vehicle: "BaaliGaddi",
+    joinedDate: "11-11-2025",
+    vehicleReg: "MP04 XY 7788",
+    city: "Bhopal",
+    store: "MP Nagar Zone 1",
+    jobType: "Part Time",
+    dob: "09-Feb-2004",
+    gender: "Male",
+    fatherName: "Ram Verma",
+    aadhaar: "874561234567",
+    pan: "ABCDE1234F",
+    bankAcc: "7894561230",
+    bankName: "HDFC",
+    ifsc: "HDFC0001234",
+    aadhaarImg: "/aadhar.png",
+    panImg: "/aadhar.png",
+    passbookImg: "/aadhar.png",
+    profileImage: "/dashboard/avatar.png",
+  },
+  {
+    id: 2,
+    name: "Rohit Verma",
+    phone: "+91 9123456780",
+    deliveries: 12,
+    rating: 4.2,
+    status: "InActive",
+    vehicle: "BaaliGaddi",
+    joinedDate: "11-11-2025",
+    vehicleReg: "MP04 XY 7788",
+    city: "Bhopal",
+    store: "MP Nagar Zone 1",
+    jobType: "Part Time",
+    dob: "09-Feb-2004",
+    gender: "Male",
+    fatherName: "Ram Verma",
+    aadhaar: "874561234567",
+    pan: "ABCDE1234F",
+    bankAcc: "7894561230",
+    bankName: "HDFC",
+    ifsc: "HDFC0001234",
     aadhaarImg: "/aadhar.png",
     panImg: "/aadhar.png",
     passbookImg: "/aadhar.png",
@@ -255,6 +307,38 @@ const DocumentCard = ({
 const DeliveryPartnersTable: React.FC = () => {
   const [riders, setRiders] = useState<Rider[]>(initialRiders);
   const [selectedRider, setSelectedRider] = useState<Rider | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [statusFilter, setStatusFilter] = useState("All");
+  const [filterOpen, setFilterOpen] = useState(false);
+
+  const itemsPerPage = 5;
+
+  // Filter and search riders
+  const filteredRiders = useMemo(() => {
+    return riders.filter((r) => {
+      const matchesSearch =
+        r.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        r.phone.toLowerCase().includes(searchTerm.toLowerCase());
+      const matchesStatus =
+        statusFilter === "All" || r.status === statusFilter;
+      return matchesSearch && matchesStatus;
+    });
+  }, [riders, searchTerm, statusFilter]);
+
+  // Pagination
+  const totalPages = Math.ceil(filteredRiders.length / itemsPerPage);
+  const startIndex = (currentPage - 1) * itemsPerPage;
+  const displayRiders = filteredRiders.slice(
+    startIndex,
+    startIndex + itemsPerPage
+  );
+
+  useEffect(() => {
+    if (currentPage > totalPages && totalPages > 0) {
+      setCurrentPage(1);
+    }
+  }, [currentPage, totalPages]);
 
   const toggleStatus = (id: number) => {
     setRiders((prev) =>
@@ -266,35 +350,91 @@ const DeliveryPartnersTable: React.FC = () => {
     );
   };
 
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page);
+    }
+  };
+
   return (
     <>
       <div className="bg-white rounded-2xl shadow-sm p-4 md:p-5">
 
         {/* RESPONSIVE HEADER */}
         <div className="flex flex-col gap-4 mb-4  md:flex-row md:justify-between md:items-center">
-          <h2 className="text-lg font-semibold">
+          
+
+           <div className="flex items-center gap-2">
+          <div className="w-12 h-12 bg-gray-100 text-green-600 rounded-lg flex items-center justify-center">
+            <Scooter size={28} />
+          </div>
+          <h2 className="text-[16px] md:text-[18px] font-semibold text-[#2D2D2D]">
             All Delivery Partners of tokrigo
           </h2>
+        </div>
 
           <div className="flex flex-wrap gap-2 items-center w-full md:w-auto">
             <div className="relative w-full sm:w-64">
               <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
               <input
-                placeholder="Search riders by phone..."
-                className="w-full pl-9 pr-3 py-2 text-sm border rounded-lg"
+                type="text"
+                placeholder="Search riders by name or phone..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="w-full pl-9 pr-3 py-2 text-sm border rounded-lg focus:outline-none"
               />
             </div>
 
-            <button className="flex items-center gap-1 px-3 py-2 border rounded-lg text-sm">
-              <Filter size={14} /> Filter
-            </button>
+            <div className="relative">
+              <button
+                onClick={() => setFilterOpen((p) => !p)}
+                className="flex items-center gap-1 border rounded-lg px-3 py-2 text-sm"
+              >
+                <SlidersHorizontal className="w-4 h-4" />
+                Filter
+              </button>
 
-            <button className="border p-2 rounded-lg">
-              <ChevronLeft size={16} />
-            </button>
-            <button className="border p-2 rounded-lg">
-              <ChevronRight size={16} />
-            </button>
+              {filterOpen && (
+                <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-lg z-50">
+                  {["All", "Active", "On Delivery", "Waiting", "InActive"].map(
+                    (status) => (
+                      <button
+                        key={status}
+                        onClick={() => {
+                          setStatusFilter(status);
+                          setCurrentPage(1);
+                          setFilterOpen(false);
+                        }}
+                        className={`w-full text-left px-4 py-2 text-sm hover:bg-gray-100 ${
+                          statusFilter === status
+                            ? "bg-gray-100 font-medium"
+                            : ""
+                        }`}
+                      >
+                        {status}
+                      </button>
+                    )
+                  )}
+                </div>
+              )}
+            </div>
+
+            <div className="flex gap-2">
+              <button
+                onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === 1}
+                className="border p-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+              >
+                <ChevronLeft size={16} />
+              </button>
+              <button
+                onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages || totalPages === 0}
+                className="border p-2 rounded-lg disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50 transition-colors"
+              >
+                <ChevronRight size={16} />
+              </button>
+            </div>
           </div>
         </div>
 
@@ -302,25 +442,25 @@ const DeliveryPartnersTable: React.FC = () => {
         <div className="hidden md:block rounded-lg overflow-x-auto">
           <table className="w-full text-sm">
             <thead>
-              <tr className="bg-green-100">
-                <th className="p-3 text-center">Rider</th>
-                <th className="p-3 text-center">Phone</th>
-                <th className="p-3 text-center">Deliveries</th>
-                <th className="p-3 text-center">Rating</th>
-                <th className="p-3 text-center">Status</th>
-                <th className="p-3 text-center">Vehicle</th>
-                <th className="p-3 text-center">Action</th>
+              <tr className="bg-green-grad text-white">
+                <th className="p-3 py-4 text-center">Rider</th>
+                <th className="p-3 py-4 text-center">Phone</th>
+                <th className="p-3 py-4 text-center">Deliveries</th>
+                <th className="p-3 py-4 text-center">Rating</th>
+                <th className="p-3 py-4 text-center">Status</th>
+                <th className="p-3 py-4 text-center">Vehicle</th>
+                <th className="p-3 py-4 text-center">Action</th>
               </tr>
             </thead>
 
             <tbody>
-              {riders.map((r) => (
+              {displayRiders.map((r) => (
                 <tr key={r.id} className="border-b">
-                  <td className="p-3 text-center">{r.name}</td>
-                  <td className="p-3 text-center">{r.phone}</td>
-                  <td className="p-3 text-center">{r.deliveries}</td>
-                  <td className="p-3 text-center">⭐ {r.rating}</td>
-                  <td className="p-3 text-center">
+                  <td className="p-3 py-6 text-center">{r.name}</td>
+                  <td className="p-3 py-6 text-center">{r.phone}</td>
+                  <td className="p-3 py-6 text-center">{r.deliveries}</td>
+                  <td className="p-3 py-6 text-center">⭐ {r.rating}</td>
+                  <td className="p-3 py-6 text-center">
                     <span className={`px-3 py-1 rounded-full text-xs ${statusStyle(r.status)}`}>
                       {r.status}
                     </span>
@@ -330,19 +470,15 @@ const DeliveryPartnersTable: React.FC = () => {
                     <div className="flex gap-2 justify-center">
                       <button
                         onClick={() => setSelectedRider(r)}
-                        className="w-8 h-8 bg-yellow-100 rounded"
+                        className="  rounded"
                       >
-                        📄
+                        <BookUser className="text-blue-400" />
                       </button>
                       <button
                         onClick={() => toggleStatus(r.id)}
-                        className={`w-8 h-8 rounded ${
-                          r.status === "InActive"
-                            ? "bg-green-100"
-                            : "bg-red-100"
-                        }`}
+                        className={`w-8 h-8 rounded `}
                       >
-                        {r.status === "InActive" ? "✅" : "🚫"}
+                        {r.status === "InActive" ? <Ban className="text-red-500" /> : <SquareCheckBig className="text-green-500" />}
                       </button>
                     </div>
                   </td>
@@ -353,7 +489,7 @@ const DeliveryPartnersTable: React.FC = () => {
         </div>
 {/* MOBILE VIEW */}
 <div className="md:hidden space-y-3">
-  {riders.map((r) => (
+  {displayRiders.map((r) => (
     <div
       key={r.id}
       className="bg-white border rounded-xl p-4 shadow-sm"
@@ -424,6 +560,14 @@ const DeliveryPartnersTable: React.FC = () => {
   ))}
 </div>
 
+        {/* Pagination Status */}
+        <div className="flex items-center justify-between mt-6 pt-4 ">
+          <div className="text-sm text-gray-500">
+            Showing {filteredRiders.length > 0 ? startIndex + 1 : 0}-
+            {Math.min(startIndex + itemsPerPage, filteredRiders.length)} of{" "}
+            {filteredRiders.length} delivery partners
+          </div>
+        </div>
       </div>
 
       {selectedRider && (

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from "react";
 import DashboardLayout from "../layouts/DashboardLayout";
-import { Search, ChevronLeft, ChevronRight, Filter, Users, BookUser, Ban, SquareCheckBig, SlidersHorizontal } from "lucide-react";
+import { Search, ChevronLeft, ChevronRight, Users, BookUser, Ban, SquareCheckBig, SlidersHorizontal } from "lucide-react";
 
 
 
@@ -395,7 +395,7 @@ const CustomerManagement: React.FC = () => {
       className="w-8 h-8 rounded flex items-center justify-center"
       title="View Details"
     >
-      <BookUser className="text-blue-500" />
+      <BookUser className="text-blue-400" />
     </button>
 
     {/* ACTIVE / INACTIVE */}

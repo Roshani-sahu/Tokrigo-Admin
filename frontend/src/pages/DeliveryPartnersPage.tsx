@@ -7,21 +7,25 @@ const stats = [
     title: "Total Riders",
     subtitle: "Today’s Delivery Fleet",
     value: 100,
+    img1: "/icons/rider1.png",
   },
   {
     title: "Active Riders",
     subtitle: "Riders active for delivery",
     value: 80,
+    img1: "/icons/rider2.png",
   },
   {
     title: "Riders On Delivery",
     subtitle: "Riders on delivery process",
     value: 60,
+    img1: "/icons/rider3.png",
   },
   {
     title: "Riders Waiting On Lobby",
     subtitle: "Today’s Delivery Fleet",
     value: 20,
+    img1: "/icons/rider4.png",
   },
 ];
 
@@ -60,7 +64,7 @@ const DeliveryPartnersPage: React.FC = () => {
       {/* Top-right image */}
       <div className="w-10 h-10 flex items-center justify-center rounded-full bg-orange-100">
         <img
-          src="/icons/rider.png"
+          src={s.img1}
           alt={s.title}
           className="w-5 h-5 object-contain"
         />
