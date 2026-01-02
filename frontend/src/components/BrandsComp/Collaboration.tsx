@@ -1,4 +1,5 @@
-import { Box, AlertTriangle } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Box, AlertTriangle, Search, ChevronLeft, ChevronRight } from "lucide-react";
 
 /* ================= STATS ================= */
 const collabStats = [
@@ -64,6 +65,37 @@ const collaborations = [
 ];
 
 const Collaboration = () => {
+  const [searchTerm, setSearchTerm] = useState('')
+  const [statusFilter, setStatusFilter] = useState('All')
+  const [currentPage, setCurrentPage] = useState(1)
+  
+  const itemsPerPage = 5
+  
+  // Filter and search collaborations
+  const filteredCollaborations = useMemo(() => {
+    return collaborations.filter(collab => {
+      const matchesSearch = collab.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                           collab.type.toLowerCase().includes(searchTerm.toLowerCase())
+      const matchesStatus = statusFilter === 'All' || collab.status === statusFilter
+      return matchesSearch && matchesStatus
+    })
+  }, [searchTerm, statusFilter])
+  
+  // Pagination
+  const totalPages = Math.ceil(filteredCollaborations.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const displayCollaborations = filteredCollaborations.slice(startIndex, startIndex + itemsPerPage)
+  
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page)
+    }
+  }
+  
+  // Reset to first page when filters change
+  useMemo(() => {
+    setCurrentPage(1)
+  }, [searchTerm, statusFilter])
   return (
     <div className="mt-8">
       {/* ================= HEADER ================= */}
@@ -131,36 +163,48 @@ const Collaboration = () => {
             Collaborations Overview
           </h3>
 
-          <div className="flex items-center gap-2">
-            <input
-              placeholder="Search brands here..."
-              className="px-4 py-2 text-sm border rounded-lg focus:outline-none"
-            />
-            <button className="px-3 py-2 border rounded-lg text-sm">
-              Filter
-            </button>
+          <div className="flex flex-col md:flex-row items-center gap-2">
+            <div className="relative">
+              <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
+              <input
+                placeholder="Search brands here..."
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+                className="pl-9 pr-3 py-2 text-sm border rounded-lg focus:outline-none"
+              />
+            </div>
+            <select 
+              value={statusFilter}
+              onChange={(e) => setStatusFilter(e.target.value)}
+              className="px-3 py-2 border rounded-lg text-sm focus:outline-none"
+            >
+              <option value="All">All Status</option>
+              <option value="Active">Active</option>
+              <option value="Pending">Pending</option>
+              <option value="Expired">Expired</option>
+            </select>
           </div>
         </div>
 
         {/* TABLE */}
-        <div className="hidden md:block overflow-x-auto">
-          <table className="w-full text-sm">
+        <div className="hidden md:block overflow-x-auto rounded-xl">
+          <table className="w-full text-sm ">
             <thead>
-              <tr className="bg-green-100">
-                <th className="p-3 text-left">Brand Identity</th>
-                <th className="p-3 text-left">Collab Type</th>
-                <th className="p-3 text-left">Start Date</th>
-                <th className="p-3 text-left">End Date</th>
-                <th className="p-3 text-left">Commission</th>
-                <th className="p-3 text-left">Status</th>
+              <tr className="bg-green-grad text-white ">
+                <th className="p-3 py-5 text-left">Brand Identity</th>
+                <th className="p-3 py-5 text-left">Collab Type</th>
+                <th className="p-3 py-5 text-left">Start Date</th>
+                <th className="p-3 py-5 text-left">End Date</th>
+                <th className="p-3 py-5 text-left">Commission</th>
+                <th className="p-3 py-5 text-left">Status</th>
               </tr>
             </thead>
 
             <tbody>
-              {collaborations.map((c, i) => (
+              {displayCollaborations.map((c, i) => (
                 <tr key={i} className="border-b hover:bg-gray-50">
                   {/* BRAND + IMAGE */}
-                  <td className="p-3">
+                  <td className="p-3 py-5">
                     <div className="flex items-center gap-3">
                       <img
                         src={c.image}
@@ -173,17 +217,17 @@ const Collaboration = () => {
                     </div>
                   </td>
 
-                  <td className="p-3">
+                  <td className="p-3 py-5">
                     <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded text-xs">
                       {c.type}
                     </span>
                   </td>
 
-                  <td className="p-3">{c.start}</td>
-                  <td className="p-3">{c.end}</td>
-                  <td className="p-3">{c.commission}</td>
+                  <td className="p-3 py-5">{c.start}</td>
+                  <td className="p-3 py-5">{c.end}</td>
+                  <td className="p-3 py-5">{c.commission}</td>
 
-                  <td className="p-3">
+                  <td className="p-3 py-5">
                     <span className="bg-green-100 text-green-600 px-3 py-1 rounded text-xs">
                       {c.status}
                     </span>
@@ -196,7 +240,7 @@ const Collaboration = () => {
 
         {/* MOBILE VIEW */}
 <div className="md:hidden space-y-3">
-  {collaborations.map((c, i) => (
+  {displayCollaborations.map((c, i) => (
     <div
       key={i}
       className="bg-white border rounded-xl p-4 shadow-sm"
@@ -241,6 +285,45 @@ const Collaboration = () => {
     </div>
   ))}
 </div>
+
+        {/* Pagination */}
+        <div className='flex items-center justify-between mt-4 pt-4'>
+          <div className='text-sm text-gray-500'>
+            Showing {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredCollaborations.length)} of {filteredCollaborations.length} collaborations
+          </div>
+          
+          <div className='flex items-center gap-2'>
+            <button 
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className='border rounded-lg p-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50'
+            >
+              <ChevronLeft size={16} />
+            </button>
+            
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`px-3 py-1 rounded-lg text-sm ${
+                  currentPage === page 
+                    ? 'bg-green-500 text-white' 
+                    : 'border hover:bg-gray-50'
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+            
+            <button 
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className='border rounded-lg p-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50'
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </div>
 
       </div>
     </div>

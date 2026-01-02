@@ -1,4 +1,5 @@
-import { Box, AlertTriangle, Search, Filter } from "lucide-react";
+import { useState, useMemo } from "react";
+import { Box, AlertTriangle, Search, Filter, ChevronLeft, ChevronRight } from "lucide-react";
 
 /* ================= STATS DATA ================= */
 const brandStats = [
@@ -52,13 +53,13 @@ const brandsTable = [
     deadStock: "0%",
   },
   {
-    name: "Tata Sampann",
+    name: "Salt",
     image: "/icons/tataIcon.png",
     sales: "Rs. 45,000/-",
     units: "450",
     returnRate: "4%pm",
     frequency: "60%pm",
-    rating: "4.5",
+    rating: "2.5",
     deadStock: "0%",
   },
   {
@@ -115,6 +116,39 @@ const brandsTable = [
 
 /* ================= COMPONENT ================= */
 const Brands = () => {
+  const [searchTerm, setSearchTerm] = useState('')
+  const [ratingFilter, setRatingFilter] = useState('All')
+  const [currentPage, setCurrentPage] = useState(1)
+  
+  const itemsPerPage = 5
+  
+  // Reset to first page when filters change
+  useMemo(() => {
+    setCurrentPage(1)
+  }, [searchTerm, ratingFilter])
+  
+  // Filter and search brands
+  const filteredBrands = useMemo(() => {
+    return brandsTable.filter(brand => {
+      const matchesSearch = brand.name.toLowerCase().includes(searchTerm.toLowerCase())
+      const matchesRating = ratingFilter === 'All' || 
+        (ratingFilter === '4+' && parseFloat(brand.rating) >= 4) ||
+        (ratingFilter === '3-4' && parseFloat(brand.rating) >= 3 && parseFloat(brand.rating) < 4) ||
+        (ratingFilter === '<3' && parseFloat(brand.rating) < 3)
+      return matchesSearch && matchesRating
+    })
+  }, [searchTerm, ratingFilter])
+  
+  // Pagination
+  const totalPages = Math.ceil(filteredBrands.length / itemsPerPage)
+  const startIndex = (currentPage - 1) * itemsPerPage
+  const displayBrands = filteredBrands.slice(startIndex, startIndex + itemsPerPage)
+  
+  const handlePageChange = (page: number) => {
+    if (page >= 1 && page <= totalPages) {
+      setCurrentPage(page)
+    }
+  }
   return (
     <div>
       {/* HEADER */}
@@ -178,15 +212,23 @@ const Brands = () => {
       <Search className="absolute left-3 top-2.5 w-4 h-4 text-gray-400" />
       <input
         placeholder="Search Brands here..."
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
         className="w-full pl-9 pr-3 py-2 text-sm border rounded-lg focus:outline-none"
       />
     </div>
 
     {/* FILTER */}
-    <button className="w-full sm:w-auto px-3 py-2 border rounded-lg text-sm flex items-center justify-center gap-1">
-      <Filter size={14} />
-      Filter
-    </button>
+    <select 
+      value={ratingFilter}
+      onChange={(e) => setRatingFilter(e.target.value)}
+      className="w-full sm:w-auto px-3 py-2 border rounded-lg text-sm focus:outline-none"
+    >
+      <option value="All">All Ratings</option>
+      <option value="4+">4+ Stars</option>
+      <option value="3-4">3-4 Stars</option>
+      <option value="<3">Below 3 Stars</option>
+    </select>
   </div>
 </div>
 
@@ -195,19 +237,19 @@ const Brands = () => {
         <div className="hidden rounded-xl md:block overflow-x-auto">
           <table className="w-full  text-sm">
             <thead>
-              <tr className="bg-green-100 ">
-                <th className="p-3 text-left">Brands Identity</th>
-                <th className="p-3 text-left">Net Sales</th>
-                <th className="p-3 text-left">Unit Sold</th>
-                <th className="p-3 text-left">Return Rate</th>
-                <th className="p-3 text-left">Order Frequency</th>
-                <th className="p-3 text-left">Avg. Rating</th>
-                <th className="p-3 text-left">Dead Stock %</th>
+              <tr className="bg-green-grad text-white ">
+                <th className="p-3 py-5 text-left">Brands Identity</th>
+                <th className="p-3 py-5 text-left">Net Sales</th>
+                <th className="p-3 py-5 text-left">Unit Sold</th>
+                <th className="p-3 py-5 text-left">Return Rate</th>
+                <th className="p-3 py-5 text-left">Order Frequency</th>
+                <th className="p-3 py-5 text-left">Avg. Rating</th>
+                <th className="p-3 py-5 text-left">Dead Stock %</th>
               </tr>
             </thead>
 
             <tbody>
-              {brandsTable.map((b, i) => (
+              {displayBrands.map((b, i) => (
                 <tr key={i} className="border-b hover:bg-gray-50">
                   {/* BRAND WITH IMAGE */}
                   <td className="p-3">
@@ -221,17 +263,17 @@ const Brands = () => {
                     </div>
                   </td>
 
-                  <td className="p-3">{b.sales}</td>
-                  <td className="p-3">{b.units}</td>
-                  <td className="p-3">{b.returnRate}</td>
-                  <td className="p-3">{b.frequency}</td>
+                  <td className="p-3 py-6">{b.sales}</td>
+                  <td className="p-3 py-6">{b.units}</td>
+                  <td className="p-3 py-6">{b.returnRate}</td>
+                  <td className="p-3 py-6">{b.frequency}</td>
 
                   {/* RATING */}
-                  <td className="p-3 text-yellow-500 flex items-center gap-1">
+                  <td className="p-3 text-yellow-500 flex py-6 items-center gap-1">
                     ⭐ {b.rating}
                   </td>
 
-                  <td className="p-3">{b.deadStock}</td>
+                  <td className="p-3 py-5">{b.deadStock}</td>
                 </tr>
               ))}
             </tbody>
@@ -240,7 +282,7 @@ const Brands = () => {
 
         {/* MOBILE VIEW Table*/}
 <div className="md:hidden space-y-3 ">
-  {brandsTable.map((b, i) => (
+  {displayBrands.map((b, i) => (
     <div
       key={i}
       className="bg-white border rounded-xl p-4 shadow-sm"
@@ -288,6 +330,45 @@ const Brands = () => {
     </div>
   ))}
 </div>
+
+        {/* Pagination */}
+        <div className='flex items-center justify-between mt-4 pt-4 '>
+          <div className='text-sm text-gray-500'>
+            Showing {startIndex + 1}-{Math.min(startIndex + itemsPerPage, filteredBrands.length)} of {filteredBrands.length} brands
+          </div>
+          
+          <div className='flex items-center gap-2'>
+            <button 
+              onClick={() => handlePageChange(currentPage - 1)}
+              disabled={currentPage === 1}
+              className='border rounded-lg p-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50'
+            >
+              <ChevronLeft size={16} />
+            </button>
+            
+            {Array.from({ length: totalPages }, (_, i) => i + 1).map(page => (
+              <button
+                key={page}
+                onClick={() => handlePageChange(page)}
+                className={`px-3 py-1 rounded-lg text-sm ${
+                  currentPage === page 
+                    ? 'bg-green-500 text-white' 
+                    : 'border hover:bg-gray-50'
+                }`}
+              >
+                {page}
+              </button>
+            ))}
+            
+            <button 
+              onClick={() => handlePageChange(currentPage + 1)}
+              disabled={currentPage === totalPages}
+              className='border rounded-lg p-2 disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gray-50'
+            >
+              <ChevronRight size={16} />
+            </button>
+          </div>
+        </div>
 
       </div>
     </div>
